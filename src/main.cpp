@@ -5,12 +5,17 @@
 #include <mutex>
 #include <sstream>
 #include <algorithm>
+#include <string>
 
 #include <boost/asio.hpp>
+#include <boost/beast/core.hpp>
+#include <boost/beast/websocket.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
 namespace asio = boost::asio;
+namespace beast = boost::beast;
+namespace websocket = beast::websocket;
 using tcp = asio::ip::tcp;
 using boost::property_tree::ptree;
 
@@ -27,32 +32,59 @@ std::string make_json(const std::string& type, const std::string& message="") {
 
     std::ostringstream buf;
     write_json(buf, tree, false);
-    return buf.str();
+    std::string result = buf.str();
+    
+    // Remove trailing newline from JSON
+    if (!result.empty() && result.back() == '\n') {
+        result.pop_back();
+    }
+    
+    return result;
 }
 
 class Session : public std::enable_shared_from_this<Session> {
 public:
     explicit Session(tcp::socket socket)
-        : socket_(std::move(socket)) {}
+        : ws_(std::move(socket)) {}
 
     void start() {
-        {
-            std::lock_guard<std::mutex> lock(global_mutex);
-            sessions.insert(shared_from_this());
-        }
+        // Set WebSocket options
+        ws_.set_option(websocket::stream_base::timeout::suggested(beast::role_type::server));
+        ws_.set_option(websocket::stream_base::decorator(
+            [](websocket::response_type& res) {
+                res.set(beast::http::field::server, "AnonymousChat/1.0");
+            }));
 
-        send(make_json("info", "Welcome"));
-        try_match();
-        do_read();
+        // Accept the WebSocket handshake
+        ws_.async_accept(
+            [self = shared_from_this()](beast::error_code ec) {
+                if (!ec) {
+                    {
+                        std::lock_guard<std::mutex> lock(global_mutex);
+                        sessions.insert(self);
+                    }
+                    
+                    self->send(make_json("info", "Welcome to Anonymous Chat"));
+                    self->try_match();
+                    self->do_read();
+                } else {
+                    std::cerr << "WebSocket accept error: " << ec.message() << std::endl;
+                }
+            });
     }
 
     void send(const std::string& msg) {
         auto self(shared_from_this());
-        std::string data = msg + "\n";
-
-        asio::async_write(socket_, asio::buffer(data),
-            [this, self](boost::system::error_code ec, std::size_t) {
-                if (ec) close();
+        
+        // Queue message to be sent
+        asio::post(ws_.get_executor(),
+            [this, self, msg]() {
+                bool write_in_progress = !write_queue_.empty();
+                write_queue_.push_back(msg);
+                
+                if (!write_in_progress) {
+                    do_write();
+                }
             });
     }
 
@@ -72,11 +104,12 @@ public:
     }
 
 private:
-    tcp::socket socket_;
+    websocket::stream<tcp::socket> ws_;
+    beast::flat_buffer buffer_;
     std::shared_ptr<Session> partner_;
-    asio::streambuf buffer_;
     mutable std::mutex session_mutex_;
     bool closed_ = false;
+    std::deque<std::string> write_queue_;
 
     void try_match() {
         std::lock_guard<std::mutex> lock(global_mutex);
@@ -99,7 +132,6 @@ private:
 
             // Double-check partner is still valid
             if (partner->is_closed()) {
-                // Try again with cleaned pool
                 try_match();
                 return;
             }
@@ -118,18 +150,42 @@ private:
         }
     }
 
+    void do_write() {
+        auto self(shared_from_this());
+        
+        if (write_queue_.empty()) return;
+        
+        ws_.async_write(
+            asio::buffer(write_queue_.front()),
+            [this, self](beast::error_code ec, std::size_t) {
+                if (!ec) {
+                    write_queue_.pop_front();
+                    if (!write_queue_.empty()) {
+                        do_write();
+                    }
+                } else {
+                    std::cerr << "Write error: " << ec.message() << std::endl;
+                    close();
+                }
+            });
+    }
+
     void do_read() {
         auto self(shared_from_this());
-        asio::async_read_until(socket_, buffer_, '\n',
-            [this, self](boost::system::error_code ec, std::size_t) {
+        
+        ws_.async_read(
+            buffer_,
+            [this, self](beast::error_code ec, std::size_t bytes_transferred) {
                 if (!ec) {
-                    std::istream is(&buffer_);
-                    std::string line;
-                    std::getline(is, line);
-
-                    handle_json(line);
+                    std::string message = beast::buffers_to_string(buffer_.data());
+                    buffer_.consume(bytes_transferred);
+                    
+                    handle_json(message);
                     do_read();
                 } else {
+                    if (ec != websocket::error::closed) {
+                        std::cerr << "Read error: " << ec.message() << std::endl;
+                    }
                     close();
                 }
             });
@@ -189,7 +245,6 @@ private:
 
     void close() {
         std::shared_ptr<Session> partner_copy;
-        bool was_closed = false;
 
         {
             std::lock_guard<std::mutex> glock(global_mutex);
@@ -197,7 +252,6 @@ private:
 
             if (closed_) return;
             closed_ = true;
-            was_closed = true;
 
             if (partner_) {
                 partner_copy = partner_;
@@ -223,9 +277,9 @@ private:
             }
         }
 
-        // Close socket outside of locks
-        boost::system::error_code ec;
-        socket_.close(ec);
+        // Close WebSocket
+        beast::error_code ec;
+        ws_.close(websocket::close_code::normal, ec);
     }
 };
 
@@ -241,9 +295,11 @@ private:
 
     void do_accept() {
         acceptor_.async_accept(
-            [this](boost::system::error_code ec, tcp::socket socket) {
+            [this](beast::error_code ec, tcp::socket socket) {
                 if (!ec) {
                     std::make_shared<Session>(std::move(socket))->start();
+                } else {
+                    std::cerr << "Accept error: " << ec.message() << std::endl;
                 }
                 do_accept();
             });
@@ -255,12 +311,17 @@ int main() {
         asio::io_context io;
         Server server(io, 8080);
 
-        std::cout << "JSON matchmaking server running on port 8080\n";
+        std::cout << "===========================================\n";
+        std::cout << "WebSocket Chat Server Running on port 8080\n";
+        std::cout << "===========================================\n\n";
+        std::cout << "Connect from browser using:\n";
+        std::cout << "  ws://localhost:8080\n\n";
         std::cout << "Protocol:\n";
-        std::cout << "  - Send: {\"type\":\"msg\",\"text\":\"your message\"}\n";
-        std::cout << "  - Send: {\"type\":\"skip\"} to find new partner\n";
-        std::cout << "  - Receive: {\"type\":\"chat\",\"message\":\"partner's message\"}\n";
-        std::cout << "  - Receive: {\"type\":\"status\",\"message\":\"Matched|Waiting\"}\n\n";
+        std::cout << "  Send: {\"type\":\"msg\",\"text\":\"your message\"}\n";
+        std::cout << "  Send: {\"type\":\"skip\"}\n";
+        std::cout << "  Receive: {\"type\":\"chat\",\"message\":\"...\"}\n";
+        std::cout << "  Receive: {\"type\":\"status\",\"message\":\"Matched|Waiting\"}\n";
+        std::cout << "  Receive: {\"type\":\"info\",\"message\":\"...\"}\n\n";
 
         io.run();
     }

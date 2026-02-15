@@ -1527,41 +1527,23 @@ CMakeFiles/engine.dir/src/main.cpp.o: \
   /opt/homebrew/include/boost/asio/writable_pipe.hpp \
   /opt/homebrew/include/boost/asio/write_at.hpp \
   /opt/homebrew/include/boost/asio/impl/write_at.hpp \
-  /opt/homebrew/include/boost/property_tree/ptree.hpp \
-  /opt/homebrew/include/boost/property_tree/ptree_fwd.hpp \
-  /opt/homebrew/include/boost/optional/optional_fwd.hpp \
-  /opt/homebrew/include/boost/property_tree/string_path.hpp \
-  /opt/homebrew/include/boost/property_tree/id_translator.hpp \
-  /opt/homebrew/include/boost/optional/optional.hpp \
-  /opt/homebrew/include/boost/core/addressof.hpp \
-  /opt/homebrew/include/boost/core/enable_if.hpp \
-  /opt/homebrew/include/boost/core/invoke_swap.hpp \
-  /opt/homebrew/include/boost/core/launder.hpp \
-  /opt/homebrew/include/boost/optional/bad_optional_access.hpp \
+  /opt/homebrew/include/boost/beast/core.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/config.hpp \
+  /opt/homebrew/include/boost/core/ignore_unused.hpp \
+  /opt/homebrew/include/boost/core/detail/static_assert.hpp \
+  /opt/homebrew/include/boost/beast/core/async_base.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/allocator.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/async_base.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/type_traits.hpp \
+  /opt/homebrew/include/boost/type_traits/aligned_storage.hpp \
+  /opt/homebrew/include/boost/detail/workaround.hpp \
   /opt/homebrew/include/boost/type_traits/alignment_of.hpp \
   /opt/homebrew/include/boost/type_traits/intrinsics.hpp \
   /opt/homebrew/include/boost/type_traits/detail/config.hpp \
   /opt/homebrew/include/boost/type_traits/integral_constant.hpp \
-  /opt/homebrew/include/boost/detail/workaround.hpp \
-  /opt/homebrew/include/boost/type_traits/conditional.hpp \
-  /opt/homebrew/include/boost/type_traits/conjunction.hpp \
-  /opt/homebrew/include/boost/type_traits/disjunction.hpp \
-  /opt/homebrew/include/boost/type_traits/has_nothrow_constructor.hpp \
-  /opt/homebrew/include/boost/type_traits/is_default_constructible.hpp \
-  /opt/homebrew/include/boost/type_traits/is_complete.hpp \
-  /opt/homebrew/include/boost/type_traits/declval.hpp \
-  /opt/homebrew/include/boost/type_traits/add_rvalue_reference.hpp \
-  /opt/homebrew/include/boost/type_traits/is_void.hpp \
-  /opt/homebrew/include/boost/type_traits/is_reference.hpp \
-  /opt/homebrew/include/boost/type_traits/is_lvalue_reference.hpp \
-  /opt/homebrew/include/boost/type_traits/is_rvalue_reference.hpp \
-  /opt/homebrew/include/boost/type_traits/remove_reference.hpp \
-  /opt/homebrew/include/boost/type_traits/is_function.hpp \
-  /opt/homebrew/include/boost/type_traits/detail/is_function_cxx_11.hpp \
-  /opt/homebrew/include/boost/type_traits/detail/yes_no_type.hpp \
-  /opt/homebrew/include/boost/static_assert.hpp \
   /opt/homebrew/include/boost/type_traits/type_with_alignment.hpp \
   /opt/homebrew/include/boost/type_traits/is_pod.hpp \
+  /opt/homebrew/include/boost/type_traits/is_void.hpp \
   /opt/homebrew/include/boost/type_traits/is_scalar.hpp \
   /opt/homebrew/include/boost/type_traits/is_arithmetic.hpp \
   /opt/homebrew/include/boost/type_traits/is_integral.hpp \
@@ -1571,6 +1553,94 @@ CMakeFiles/engine.dir/src/main.cpp.o: \
   /opt/homebrew/include/boost/type_traits/is_member_pointer.hpp \
   /opt/homebrew/include/boost/type_traits/is_member_function_pointer.hpp \
   /opt/homebrew/include/boost/type_traits/detail/is_member_function_pointer_cxx_11.hpp \
+  /opt/homebrew/include/boost/static_assert.hpp \
+  /opt/homebrew/include/boost/type_traits/conditional.hpp \
+  /opt/homebrew/include/boost/type_traits/make_void.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/filtering_cancellation_slot.hpp \
+  /opt/homebrew/include/boost/core/exchange.hpp \
+  /opt/homebrew/include/boost/core/empty_value.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/async_base.hpp \
+  /opt/homebrew/include/boost/beast/core/basic_stream.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/stream_base.hpp \
+  /opt/homebrew/include/boost/beast/core/error.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/error.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/error.ipp \
+  /opt/homebrew/include/boost/beast/core/rate_policy.hpp \
+  /opt/homebrew/include/boost/beast/core/role.hpp \
+  /opt/homebrew/include/boost/beast/core/stream_traits.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/static_const.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/stream_traits.hpp \
+  /opt/homebrew/include/boost/enable_shared_from_this.hpp \
+  /opt/homebrew/include/boost/smart_ptr/enable_shared_from_this.hpp \
+  /opt/homebrew/include/boost/smart_ptr/weak_ptr.hpp \
+  /opt/homebrew/include/boost/smart_ptr/detail/shared_count.hpp \
+  /opt/homebrew/include/boost/smart_ptr/bad_weak_ptr.hpp \
+  /opt/homebrew/include/boost/smart_ptr/detail/sp_counted_base.hpp \
+  /opt/homebrew/include/boost/smart_ptr/detail/deprecated_macros.hpp \
+  /opt/homebrew/include/boost/config/pragma_message.hpp \
+  /opt/homebrew/include/boost/smart_ptr/detail/sp_counted_base_std_atomic.hpp \
+  /opt/homebrew/include/boost/smart_ptr/detail/sp_typeinfo_.hpp \
+  /opt/homebrew/include/boost/smart_ptr/detail/sp_counted_impl.hpp \
+  /opt/homebrew/include/boost/core/checked_delete.hpp \
+  /opt/homebrew/include/boost/core/addressof.hpp \
+  /opt/homebrew/include/boost/smart_ptr/detail/sp_disable_deprecated.hpp \
+  /opt/homebrew/include/boost/smart_ptr/shared_ptr.hpp \
+  /opt/homebrew/include/boost/smart_ptr/detail/sp_convertible.hpp \
+  /opt/homebrew/include/boost/smart_ptr/detail/sp_noexcept.hpp \
+  /opt/homebrew/include/boost/smart_ptr/detail/spinlock_pool.hpp \
+  /opt/homebrew/include/boost/smart_ptr/detail/spinlock.hpp \
+  /opt/homebrew/include/boost/smart_ptr/detail/spinlock_gcc_atomic.hpp \
+  /opt/homebrew/include/boost/smart_ptr/detail/yield_k.hpp \
+  /opt/homebrew/include/boost/core/yield_primitives.hpp \
+  /opt/homebrew/include/boost/core/detail/sp_thread_pause.hpp \
+  /opt/homebrew/include/boost/core/detail/sp_thread_yield.hpp \
+  /opt/homebrew/include/boost/core/detail/sp_thread_sleep.hpp \
+  /opt/homebrew/include/boost/smart_ptr/detail/local_sp_deleter.hpp \
+  /opt/homebrew/include/boost/smart_ptr/detail/local_counted_base.hpp \
+  /opt/homebrew/include/boost/shared_ptr.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/basic_stream.hpp \
+  /opt/homebrew/include/boost/beast/core/buffer_traits.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/buffer_traits.hpp \
+  /opt/homebrew/include/boost/mp11/function.hpp \
+  /opt/homebrew/include/boost/mp11/integral.hpp \
+  /opt/homebrew/include/boost/mp11/version.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_value.hpp \
+  /opt/homebrew/include/boost/mp11/detail/config.hpp \
+  /opt/homebrew/include/boost/mp11/utility.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_list.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_fold.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_defer.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_rename.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_front.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_count.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_plus.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_min_element.hpp \
+  /opt/homebrew/include/boost/mp11/list.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_list_v.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_is_list.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_is_value_list.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_append.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_void.hpp \
+  /opt/homebrew/include/boost/beast/core/buffers_prefix.hpp \
+  /opt/homebrew/include/boost/optional/optional.hpp \
+  /opt/homebrew/include/boost/core/enable_if.hpp \
+  /opt/homebrew/include/boost/core/invoke_swap.hpp \
+  /opt/homebrew/include/boost/core/launder.hpp \
+  /opt/homebrew/include/boost/optional/bad_optional_access.hpp \
+  /opt/homebrew/include/boost/type_traits/conjunction.hpp \
+  /opt/homebrew/include/boost/type_traits/disjunction.hpp \
+  /opt/homebrew/include/boost/type_traits/has_nothrow_constructor.hpp \
+  /opt/homebrew/include/boost/type_traits/is_default_constructible.hpp \
+  /opt/homebrew/include/boost/type_traits/is_complete.hpp \
+  /opt/homebrew/include/boost/type_traits/declval.hpp \
+  /opt/homebrew/include/boost/type_traits/add_rvalue_reference.hpp \
+  /opt/homebrew/include/boost/type_traits/is_reference.hpp \
+  /opt/homebrew/include/boost/type_traits/is_lvalue_reference.hpp \
+  /opt/homebrew/include/boost/type_traits/is_rvalue_reference.hpp \
+  /opt/homebrew/include/boost/type_traits/remove_reference.hpp \
+  /opt/homebrew/include/boost/type_traits/is_function.hpp \
+  /opt/homebrew/include/boost/type_traits/detail/is_function_cxx_11.hpp \
+  /opt/homebrew/include/boost/type_traits/detail/yes_no_type.hpp \
   /opt/homebrew/include/boost/type_traits/remove_const.hpp \
   /opt/homebrew/include/boost/type_traits/decay.hpp \
   /opt/homebrew/include/boost/type_traits/is_array.hpp \
@@ -1595,7 +1665,7 @@ CMakeFiles/engine.dir/src/main.cpp.o: \
   /opt/homebrew/include/boost/type_traits/is_nothrow_move_constructible.hpp \
   /opt/homebrew/include/boost/none.hpp \
   /opt/homebrew/include/boost/none_t.hpp \
-  /opt/homebrew/include/boost/config/pragma_message.hpp \
+  /opt/homebrew/include/boost/optional/optional_fwd.hpp \
   /opt/homebrew/include/boost/optional/detail/optional_config.hpp \
   /opt/homebrew/include/boost/optional/detail/optional_factory_support.hpp \
   /opt/homebrew/include/boost/optional/detail/optional_aligned_storage.hpp \
@@ -1605,6 +1675,484 @@ CMakeFiles/engine.dir/src/main.cpp.o: \
   /opt/homebrew/include/boost/optional/detail/optional_reference_spec.hpp \
   /opt/homebrew/include/boost/optional/detail/optional_relops.hpp \
   /opt/homebrew/include/boost/optional/detail/optional_swap.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/buffers_prefix.hpp \
+  /opt/homebrew/include/boost/beast/websocket/teardown.hpp \
+  /opt/homebrew/include/boost/beast/websocket/impl/teardown.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/bind_continuation.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/remap_post_to_defer.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/is_invocable.hpp \
+  /opt/homebrew/include/boost/make_shared.hpp \
+  /opt/homebrew/include/boost/smart_ptr/make_shared.hpp \
+  /opt/homebrew/include/boost/smart_ptr/make_shared_object.hpp \
+  /opt/homebrew/include/boost/smart_ptr/detail/sp_type_traits.hpp \
+  /opt/homebrew/include/boost/smart_ptr/make_shared_array.hpp \
+  /opt/homebrew/include/boost/core/default_allocator.hpp \
+  /opt/homebrew/include/boost/smart_ptr/allocate_shared_array.hpp \
+  /opt/homebrew/include/boost/core/allocator_access.hpp \
+  /opt/homebrew/include/boost/core/pointer_traits.hpp \
+  /opt/homebrew/include/boost/core/alloc_construct.hpp \
+  /opt/homebrew/include/boost/core/noinit_adaptor.hpp \
+  /opt/homebrew/include/boost/core/first_scalar.hpp \
+  /opt/homebrew/include/boost/beast/core/bind_handler.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/bind_handler.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/tuple.hpp \
+  /opt/homebrew/include/boost/mp11/integer_sequence.hpp \
+  /opt/homebrew/include/boost/mp11/algorithm.hpp \
+  /opt/homebrew/include/boost/mp11/set.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_copy_if.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_remove_if.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_map_find.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_with_index.hpp \
+  /opt/homebrew/include/boost/type_traits/copy_cv.hpp \
+  /opt/homebrew/include/boost/type_traits/add_const.hpp \
+  /opt/homebrew/include/boost/type_traits/add_volatile.hpp \
+  /opt/homebrew/include/boost/bind/std_placeholders.hpp \
+  /opt/homebrew/include/boost/is_placeholder.hpp \
+  /opt/homebrew/include/boost/beast/core/buffered_read_stream.hpp \
+  /opt/homebrew/include/boost/beast/core/multi_buffer.hpp \
+  /opt/homebrew/include/boost/intrusive/list.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/config_begin.hpp \
+  /opt/homebrew/include/boost/intrusive/intrusive_fwd.hpp \
+  /opt/homebrew/include/boost/intrusive/link_mode.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/workaround.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/assert.hpp \
+  /opt/homebrew/include/boost/intrusive/list_hook.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/list_node.hpp \
+  /opt/homebrew/include/boost/intrusive/pointer_rebind.hpp \
+  /opt/homebrew/include/boost/intrusive/circular_list_algorithms.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/algo_type.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/config_end.hpp \
+  /opt/homebrew/include/boost/intrusive/options.hpp \
+  /opt/homebrew/include/boost/intrusive/pack_options.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/generic_hook.hpp \
+  /opt/homebrew/include/boost/intrusive/pointer_traits.hpp \
+  /opt/homebrew/include/boost/move/detail/pointer_element.hpp \
+  /opt/homebrew/include/boost/move/detail/workaround.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/mpl.hpp \
+  /opt/homebrew/include/boost/move/detail/type_traits.hpp \
+  /opt/homebrew/include/boost/move/detail/config_begin.hpp \
+  /opt/homebrew/include/boost/move/detail/meta_utils.hpp \
+  /opt/homebrew/include/boost/move/detail/meta_utils_core.hpp \
+  /opt/homebrew/include/boost/move/detail/addressof.hpp \
+  /opt/homebrew/include/boost/move/detail/config_end.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/node_holder.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/get_value_traits.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/hook_traits.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/parent_from_member.hpp \
+  /opt/homebrew/include/boost/move/detail/launder.hpp \
+  /opt/homebrew/include/boost/move/detail/to_raw_pointer.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/is_stateful_value_traits.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/function_detector.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/default_header_holder.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/reverse_iterator.hpp \
+  /opt/homebrew/include/boost/move/detail/reverse_iterator.hpp \
+  /opt/homebrew/include/boost/move/detail/iterator_traits.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/uncast.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/list_iterator.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/std_fwd.hpp \
+  /opt/homebrew/include/boost/move/detail/std_ns_begin.hpp \
+  /opt/homebrew/include/boost/move/detail/std_ns_end.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/iiterator.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/iterator.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/array_initializer.hpp \
+  /opt/homebrew/include/boost/move/detail/placement_new.hpp \
+  /opt/homebrew/include/boost/move/detail/force_ptr.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/exception_disposer.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/equal_to_value.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/key_nodeptr_comp.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/ebo_functor_holder.hpp \
+  /opt/homebrew/include/boost/move/utility_core.hpp \
+  /opt/homebrew/include/boost/move/core.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/tree_value_compare.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/simple_disposers.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/size_holder.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/algorithm.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/value_functors.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/multi_buffer.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/buffered_read_stream.hpp \
+  /opt/homebrew/include/boost/beast/core/read_size.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/read_size.hpp \
+  /opt/homebrew/include/boost/beast/core/buffers_adaptor.hpp \
+  /opt/homebrew/include/boost/optional.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/buffers_adaptor.hpp \
+  /opt/homebrew/include/boost/beast/core/buffers_cat.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/buffers_cat.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/variant.hpp \
+  /opt/homebrew/include/boost/beast/core/buffers_generator.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/buffers_generator.hpp \
+  /opt/homebrew/include/boost/beast/core/buffers_range.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/buffers_range_adaptor.hpp \
+  /opt/homebrew/include/boost/beast/core/buffers_suffix.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/buffers_suffix.hpp \
+  /opt/homebrew/include/boost/type_traits.hpp \
+  /opt/homebrew/include/boost/type_traits/add_cv.hpp \
+  /opt/homebrew/include/boost/type_traits/add_lvalue_reference.hpp \
+  /opt/homebrew/include/boost/type_traits/add_reference.hpp \
+  /opt/homebrew/include/boost/type_traits/common_type.hpp \
+  /opt/homebrew/include/boost/type_traits/detail/mp_defer.hpp \
+  /opt/homebrew/include/boost/type_traits/copy_cv_ref.hpp \
+  /opt/homebrew/include/boost/type_traits/copy_reference.hpp \
+  /opt/homebrew/include/boost/type_traits/extent.hpp \
+  /opt/homebrew/include/boost/type_traits/floating_point_promotion.hpp \
+  /opt/homebrew/include/boost/type_traits/function_traits.hpp \
+  /opt/homebrew/include/boost/type_traits/has_bit_and.hpp \
+  /opt/homebrew/include/boost/type_traits/detail/has_binary_operator.hpp \
+  /opt/homebrew/include/boost/type_traits/has_bit_and_assign.hpp \
+  /opt/homebrew/include/boost/type_traits/has_bit_or.hpp \
+  /opt/homebrew/include/boost/type_traits/has_bit_or_assign.hpp \
+  /opt/homebrew/include/boost/type_traits/has_bit_xor.hpp \
+  /opt/homebrew/include/boost/type_traits/has_bit_xor_assign.hpp \
+  /opt/homebrew/include/boost/type_traits/has_complement.hpp \
+  /opt/homebrew/include/boost/type_traits/detail/has_prefix_operator.hpp \
+  /opt/homebrew/include/boost/type_traits/has_dereference.hpp \
+  /opt/homebrew/include/boost/type_traits/has_divides.hpp \
+  /opt/homebrew/include/boost/type_traits/has_divides_assign.hpp \
+  /opt/homebrew/include/boost/type_traits/has_equal_to.hpp \
+  /opt/homebrew/include/boost/type_traits/has_greater.hpp \
+  /opt/homebrew/include/boost/type_traits/has_greater_equal.hpp \
+  /opt/homebrew/include/boost/type_traits/has_left_shift.hpp \
+  /opt/homebrew/include/boost/type_traits/has_left_shift_assign.hpp \
+  /opt/homebrew/include/boost/type_traits/has_less.hpp \
+  /opt/homebrew/include/boost/type_traits/has_less_equal.hpp \
+  /opt/homebrew/include/boost/type_traits/has_logical_and.hpp \
+  /opt/homebrew/include/boost/type_traits/has_logical_not.hpp \
+  /opt/homebrew/include/boost/type_traits/has_logical_or.hpp \
+  /opt/homebrew/include/boost/type_traits/has_minus.hpp \
+  /opt/homebrew/include/boost/type_traits/remove_pointer.hpp \
+  /opt/homebrew/include/boost/type_traits/has_minus_assign.hpp \
+  /opt/homebrew/include/boost/type_traits/has_modulus.hpp \
+  /opt/homebrew/include/boost/type_traits/has_modulus_assign.hpp \
+  /opt/homebrew/include/boost/type_traits/has_multiplies.hpp \
+  /opt/homebrew/include/boost/type_traits/has_multiplies_assign.hpp \
+  /opt/homebrew/include/boost/type_traits/has_negate.hpp \
+  /opt/homebrew/include/boost/type_traits/has_new_operator.hpp \
+  /opt/homebrew/include/boost/type_traits/has_not_equal_to.hpp \
+  /opt/homebrew/include/boost/type_traits/has_nothrow_copy.hpp \
+  /opt/homebrew/include/boost/type_traits/is_copy_constructible.hpp \
+  /opt/homebrew/include/boost/type_traits/has_nothrow_destructor.hpp \
+  /opt/homebrew/include/boost/type_traits/has_trivial_destructor.hpp \
+  /opt/homebrew/include/boost/type_traits/has_plus.hpp \
+  /opt/homebrew/include/boost/type_traits/has_plus_assign.hpp \
+  /opt/homebrew/include/boost/type_traits/has_post_decrement.hpp \
+  /opt/homebrew/include/boost/type_traits/detail/has_postfix_operator.hpp \
+  /opt/homebrew/include/boost/type_traits/has_post_increment.hpp \
+  /opt/homebrew/include/boost/type_traits/has_pre_decrement.hpp \
+  /opt/homebrew/include/boost/type_traits/has_pre_increment.hpp \
+  /opt/homebrew/include/boost/type_traits/has_right_shift.hpp \
+  /opt/homebrew/include/boost/type_traits/has_right_shift_assign.hpp \
+  /opt/homebrew/include/boost/type_traits/has_trivial_assign.hpp \
+  /opt/homebrew/include/boost/type_traits/has_trivial_constructor.hpp \
+  /opt/homebrew/include/boost/type_traits/has_trivial_copy.hpp \
+  /opt/homebrew/include/boost/type_traits/has_trivial_move_constructor.hpp \
+  /opt/homebrew/include/boost/type_traits/has_unary_minus.hpp \
+  /opt/homebrew/include/boost/type_traits/has_unary_plus.hpp \
+  /opt/homebrew/include/boost/type_traits/has_virtual_destructor.hpp \
+  /opt/homebrew/include/boost/type_traits/is_abstract.hpp \
+  /opt/homebrew/include/boost/type_traits/is_complex.hpp \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/complex \
+  /opt/homebrew/include/boost/type_traits/is_compound.hpp \
+  /opt/homebrew/include/boost/type_traits/is_fundamental.hpp \
+  /opt/homebrew/include/boost/type_traits/is_copy_assignable.hpp \
+  /opt/homebrew/include/boost/type_traits/is_noncopyable.hpp \
+  /opt/homebrew/include/boost/type_traits/is_empty.hpp \
+  /opt/homebrew/include/boost/type_traits/is_final.hpp \
+  /opt/homebrew/include/boost/type_traits/is_float.hpp \
+  /opt/homebrew/include/boost/type_traits/is_list_constructible.hpp \
+  /opt/homebrew/include/boost/type_traits/is_member_object_pointer.hpp \
+  /opt/homebrew/include/boost/type_traits/is_nothrow_swappable.hpp \
+  /opt/homebrew/include/boost/type_traits/detail/is_swappable_cxx_11.hpp \
+  /opt/homebrew/include/boost/type_traits/is_object.hpp \
+  /opt/homebrew/include/boost/type_traits/is_polymorphic.hpp \
+  /opt/homebrew/include/boost/type_traits/is_scoped_enum.hpp \
+  /opt/homebrew/include/boost/type_traits/negation.hpp \
+  /opt/homebrew/include/boost/type_traits/is_signed.hpp \
+  /opt/homebrew/include/boost/type_traits/is_stateless.hpp \
+  /opt/homebrew/include/boost/type_traits/is_swappable.hpp \
+  /opt/homebrew/include/boost/type_traits/is_trivially_copyable.hpp \
+  /opt/homebrew/include/boost/type_traits/is_union.hpp \
+  /opt/homebrew/include/boost/type_traits/is_unscoped_enum.hpp \
+  /opt/homebrew/include/boost/type_traits/is_unsigned.hpp \
+  /opt/homebrew/include/boost/type_traits/is_virtual_base_of.hpp \
+  /opt/homebrew/include/boost/type_traits/make_signed.hpp \
+  /opt/homebrew/include/boost/type_traits/make_unsigned.hpp \
+  /opt/homebrew/include/boost/type_traits/rank.hpp \
+  /opt/homebrew/include/boost/type_traits/remove_all_extents.hpp \
+  /opt/homebrew/include/boost/type_traits/remove_cv_ref.hpp \
+  /opt/homebrew/include/boost/type_traits/remove_volatile.hpp \
+  /opt/homebrew/include/boost/type_traits/type_identity.hpp \
+  /opt/homebrew/include/boost/type_traits/integral_promotion.hpp \
+  /opt/homebrew/include/boost/type_traits/promote.hpp \
+  /opt/homebrew/include/boost/beast/core/buffers_to_string.hpp \
+  /opt/homebrew/include/boost/beast/core/detect_ssl.hpp \
+  /opt/homebrew/include/boost/logic/tribool.hpp \
+  /opt/homebrew/include/boost/logic/tribool_fwd.hpp \
+  /opt/homebrew/include/boost/asio/yield.hpp \
+  /opt/homebrew/include/boost/asio/unyield.hpp \
+  /opt/homebrew/include/boost/beast/core/file.hpp \
+  /opt/homebrew/include/boost/beast/core/file_base.hpp \
+  /opt/homebrew/include/boost/beast/core/file_posix.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/file_posix.ipp \
+  /opt/homebrew/include/boost/beast/core/file_stdio.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/file_stdio.ipp \
+  /opt/homebrew/include/boost/beast/core/detail/win32_unicode_path.hpp \
+  /opt/homebrew/include/boost/beast/core/file_win32.hpp \
+  /opt/homebrew/include/boost/beast/core/flat_buffer.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/flat_buffer.hpp \
+  /opt/homebrew/include/boost/beast/core/flat_static_buffer.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/flat_static_buffer.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/flat_static_buffer.ipp \
+  /opt/homebrew/include/boost/beast/core/flat_stream.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/flat_stream.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/flat_stream.hpp \
+  /opt/homebrew/include/boost/beast/core/static_buffer.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/buffers_pair.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/static_buffer.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/static_buffer.ipp \
+  /opt/homebrew/include/boost/beast/core/make_printable.hpp \
+  /opt/homebrew/include/boost/beast/core/ostream.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/ostream.hpp \
+  /opt/homebrew/include/boost/beast/core/saved_handler.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/saved_handler.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/saved_handler.ipp \
+  /opt/homebrew/include/boost/beast/core/span.hpp \
+  /opt/homebrew/include/boost/core/span.hpp \
+  /opt/homebrew/include/boost/core/detail/assert.hpp \
+  /opt/homebrew/include/boost/core/data.hpp \
+  /opt/homebrew/include/boost/beast/core/static_string.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/static_string.hpp \
+  /opt/homebrew/include/boost/static_string/static_string.hpp \
+  /opt/homebrew/include/boost/static_string/config.hpp \
+  /opt/homebrew/include/boost/container_hash/hash.hpp \
+  /opt/homebrew/include/boost/container_hash/hash_fwd.hpp \
+  /opt/homebrew/include/boost/container_hash/hash_is_avalanching.hpp \
+  /opt/homebrew/include/boost/container_hash/is_range.hpp \
+  /opt/homebrew/include/boost/container_hash/is_contiguous_range.hpp \
+  /opt/homebrew/include/boost/container_hash/is_unordered_range.hpp \
+  /opt/homebrew/include/boost/container_hash/is_described_class.hpp \
+  /opt/homebrew/include/boost/describe/bases.hpp \
+  /opt/homebrew/include/boost/describe/modifiers.hpp \
+  /opt/homebrew/include/boost/describe/detail/config.hpp \
+  /opt/homebrew/include/boost/describe/detail/void_t.hpp \
+  /opt/homebrew/include/boost/describe/members.hpp \
+  /opt/homebrew/include/boost/describe/detail/cx_streq.hpp \
+  /opt/homebrew/include/boost/mp11/bind.hpp \
+  /opt/homebrew/include/boost/container_hash/detail/hash_integral.hpp \
+  /opt/homebrew/include/boost/container_hash/detail/hash_mix.hpp \
+  /opt/homebrew/include/boost/container_hash/detail/hash_tuple_like.hpp \
+  /opt/homebrew/include/boost/container_hash/is_tuple_like.hpp \
+  /opt/homebrew/include/boost/container_hash/detail/hash_range.hpp \
+  /opt/homebrew/include/boost/container_hash/detail/mulx.hpp \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/typeindex \
+  /opt/homebrew/include/boost/utility/string_view.hpp \
+  /opt/homebrew/include/boost/io/ostream_put.hpp \
+  /opt/homebrew/include/boost/io/detail/buffer_fill.hpp \
+  /opt/homebrew/include/boost/io/detail/ostream_guard.hpp \
+  /opt/homebrew/include/boost/utility/string_view_fwd.hpp \
+  /opt/homebrew/include/boost/core/detail/string_view.hpp \
+  /opt/homebrew/include/boost/core/detail/is_same.hpp \
+  /opt/homebrew/include/boost/beast/core/string.hpp \
+  /opt/homebrew/include/boost/beast/core/string_type.hpp \
+  /opt/homebrew/include/boost/beast/core/impl/string.ipp \
+  /opt/homebrew/include/boost/beast/core/detail/string.hpp \
+  /opt/homebrew/include/boost/beast/core/tcp_stream.hpp \
+  /opt/homebrew/include/boost/beast/websocket.hpp \
+  /opt/homebrew/include/boost/beast/websocket/error.hpp \
+  /opt/homebrew/include/boost/beast/websocket/impl/error.hpp \
+  /opt/homebrew/include/boost/beast/websocket/impl/error.ipp \
+  /opt/homebrew/include/boost/beast/websocket/option.hpp \
+  /opt/homebrew/include/boost/beast/websocket/rfc6455.hpp \
+  /opt/homebrew/include/boost/beast/http/empty_body.hpp \
+  /opt/homebrew/include/boost/beast/http/empty_body_fwd.hpp \
+  /opt/homebrew/include/boost/beast/http/error.hpp \
+  /opt/homebrew/include/boost/beast/http/impl/error.hpp \
+  /opt/homebrew/include/boost/beast/http/impl/error.ipp \
+  /opt/homebrew/include/boost/beast/http/message.hpp \
+  /opt/homebrew/include/boost/beast/http/message_fwd.hpp \
+  /opt/homebrew/include/boost/beast/http/fields_fwd.hpp \
+  /opt/homebrew/include/boost/beast/http/fields.hpp \
+  /opt/homebrew/include/boost/beast/http/field.hpp \
+  /opt/homebrew/include/boost/beast/http/impl/field.ipp \
+  /opt/homebrew/include/boost/intrusive/set.hpp \
+  /opt/homebrew/include/boost/intrusive/rbtree.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/minimal_less_equal_header.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/minimal_pair_header.hpp \
+  /opt/homebrew/include/boost/intrusive/set_hook.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/rbtree_node.hpp \
+  /opt/homebrew/include/boost/intrusive/rbtree_algorithms.hpp \
+  /opt/homebrew/include/boost/intrusive/bstree_algorithms.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/bstree_algorithms_base.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/math.hpp \
+  /opt/homebrew/include/boost/intrusive/pointer_plus_bits.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/tree_node.hpp \
+  /opt/homebrew/include/boost/intrusive/bstree.hpp \
+  /opt/homebrew/include/boost/intrusive/bs_set_hook.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/tree_iterator.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/empty_node_checker.hpp \
+  /opt/homebrew/include/boost/intrusive/detail/node_cloner_disposer.hpp \
+  /opt/homebrew/include/boost/intrusive/parent_from_member.hpp \
+  /opt/homebrew/include/boost/move/adl_move_swap.hpp \
+  /opt/homebrew/include/boost/beast/http/impl/fields.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/buffers_ref.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/clamp.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/temporary_buffer.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/impl/temporary_buffer.ipp \
+  /opt/homebrew/include/boost/beast/http/verb.hpp \
+  /opt/homebrew/include/boost/beast/http/impl/verb.ipp \
+  /opt/homebrew/include/boost/beast/http/rfc7230.hpp \
+  /opt/homebrew/include/boost/beast/http/detail/rfc7230.hpp \
+  /opt/homebrew/include/boost/beast/http/detail/rfc7230.ipp \
+  /opt/homebrew/include/boost/beast/http/detail/basic_parsed_list.hpp \
+  /opt/homebrew/include/boost/beast/http/impl/rfc7230.hpp \
+  /opt/homebrew/include/boost/beast/http/impl/rfc7230.ipp \
+  /opt/homebrew/include/boost/beast/http/status.hpp \
+  /opt/homebrew/include/boost/beast/http/impl/status.ipp \
+  /opt/homebrew/include/boost/beast/http/chunk_encode.hpp \
+  /opt/homebrew/include/boost/beast/http/type_traits.hpp \
+  /opt/homebrew/include/boost/beast/http/detail/type_traits.hpp \
+  /opt/homebrew/include/boost/beast/http/parser_fwd.hpp \
+  /opt/homebrew/include/boost/beast/http/detail/chunk_encode.hpp \
+  /opt/homebrew/include/boost/beast/http/impl/chunk_encode.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/varint.hpp \
+  /opt/homebrew/include/boost/beast/http/impl/fields.ipp \
+  /opt/homebrew/include/boost/beast/http/impl/message.hpp \
+  /opt/homebrew/include/boost/beast/http/string_body.hpp \
+  /opt/homebrew/include/boost/beast/http/string_body_fwd.hpp \
+  /opt/homebrew/include/boost/beast/websocket/impl/rfc6455.hpp \
+  /opt/homebrew/include/boost/beast/websocket/stream.hpp \
+  /opt/homebrew/include/boost/beast/websocket/stream_base.hpp \
+  /opt/homebrew/include/boost/beast/websocket/detail/decorator.hpp \
+  /opt/homebrew/include/boost/beast/websocket/stream_fwd.hpp \
+  /opt/homebrew/include/boost/beast/websocket/detail/hybi13.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/base64.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/base64.ipp \
+  /opt/homebrew/include/boost/beast/websocket/detail/hybi13.ipp \
+  /opt/homebrew/include/boost/beast/core/detail/sha1.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/sha1.ipp \
+  /opt/homebrew/include/boost/beast/websocket/detail/prng.hpp \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/random \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/bernoulli_distribution.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/uniform_real_distribution.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/generate_canonical.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/binomial_distribution.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/cauchy_distribution.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/chi_squared_distribution.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/gamma_distribution.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/exponential_distribution.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/default_random_engine.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/linear_congruential_engine.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/is_seed_sequence.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/discard_block_engine.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/discrete_distribution.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/numeric \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/accumulate.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/adjacent_difference.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/inner_product.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/iota.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/partial_sum.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/exclusive_scan.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/gcd_lcm.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/inclusive_scan.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/pstl.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/reduce.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/transform_exclusive_scan.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/transform_inclusive_scan.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/transform_reduce.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/midpoint.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/saturation_arithmetic.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__type_traits/is_execution_policy.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/extreme_value_distribution.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/fisher_f_distribution.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/geometric_distribution.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/negative_binomial_distribution.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/poisson_distribution.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/clamp_to_integral.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/normal_distribution.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/independent_bits_engine.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/knuth_b.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/shuffle_order_engine.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/lognormal_distribution.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/mersenne_twister_engine.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/piecewise_constant_distribution.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/piecewise_linear_distribution.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/random_device.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/ranlux.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/subtract_with_carry_engine.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/seed_seq.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/student_t_distribution.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__random/weibull_distribution.h \
+  /opt/homebrew/include/boost/beast/websocket/detail/prng.ipp \
+  /opt/homebrew/include/boost/beast/core/detail/chacha.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/pcg.hpp \
+  /opt/homebrew/include/boost/beast/websocket/detail/impl_base.hpp \
+  /opt/homebrew/include/boost/beast/websocket/detail/frame.hpp \
+  /opt/homebrew/include/boost/beast/websocket/detail/utf8_checker.hpp \
+  /opt/homebrew/include/boost/beast/websocket/detail/utf8_checker.ipp \
+  /opt/homebrew/include/boost/endian/conversion.hpp \
+  /opt/homebrew/include/boost/endian/detail/endian_reverse.hpp \
+  /opt/homebrew/include/boost/endian/detail/integral_by_size.hpp \
+  /opt/homebrew/include/boost/endian/detail/intrinsic.hpp \
+  /opt/homebrew/include/boost/endian/detail/is_scoped_enum.hpp \
+  /opt/homebrew/include/boost/endian/detail/is_integral.hpp \
+  /opt/homebrew/include/boost/endian/detail/static_assert.hpp \
+  /opt/homebrew/include/boost/endian/detail/endian_load.hpp \
+  /opt/homebrew/include/boost/endian/detail/order.hpp \
+  /opt/homebrew/include/boost/endian/detail/is_trivially_copyable.hpp \
+  /opt/homebrew/include/boost/endian/detail/endian_store.hpp \
+  /opt/homebrew/include/boost/beast/websocket/detail/pmd_extension.hpp \
+  /opt/homebrew/include/boost/beast/websocket/detail/pmd_extension.ipp \
+  /opt/homebrew/include/boost/beast/zlib/deflate_stream.hpp \
+  /opt/homebrew/include/boost/beast/zlib/error.hpp \
+  /opt/homebrew/include/boost/beast/zlib/impl/error.hpp \
+  /opt/homebrew/include/boost/beast/zlib/impl/error.ipp \
+  /opt/homebrew/include/boost/beast/zlib/zlib.hpp \
+  /opt/homebrew/include/boost/beast/zlib/detail/deflate_stream.hpp \
+  /opt/homebrew/include/boost/beast/zlib/detail/ranges.hpp \
+  /opt/homebrew/include/boost/beast/zlib/detail/deflate_stream.ipp \
+  /opt/homebrew/include/boost/make_unique.hpp \
+  /opt/homebrew/include/boost/smart_ptr/make_unique.hpp \
+  /opt/homebrew/include/boost/beast/zlib/inflate_stream.hpp \
+  /opt/homebrew/include/boost/beast/zlib/detail/inflate_stream.hpp \
+  /opt/homebrew/include/boost/beast/zlib/detail/bitstream.hpp \
+  /opt/homebrew/include/boost/beast/zlib/detail/window.hpp \
+  /opt/homebrew/include/boost/beast/zlib/detail/inflate_stream.ipp \
+  /opt/homebrew/include/boost/beast/websocket/impl/stream_impl.hpp \
+  /opt/homebrew/include/boost/beast/websocket/detail/mask.hpp \
+  /opt/homebrew/include/boost/beast/websocket/detail/mask.ipp \
+  /opt/homebrew/include/boost/beast/websocket/detail/service.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/service_base.hpp \
+  /opt/homebrew/include/boost/beast/websocket/detail/service.ipp \
+  /opt/homebrew/include/boost/beast/websocket/detail/soft_mutex.hpp \
+  /opt/homebrew/include/boost/beast/http/read.hpp \
+  /opt/homebrew/include/boost/beast/http/basic_parser.hpp \
+  /opt/homebrew/include/boost/beast/http/detail/basic_parser.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/char_buffer.hpp \
+  /opt/homebrew/include/boost/beast/http/detail/basic_parser.ipp \
+  /opt/homebrew/include/boost/beast/http/impl/basic_parser.hpp \
+  /opt/homebrew/include/boost/beast/http/impl/basic_parser.ipp \
+  /opt/homebrew/include/boost/beast/http/impl/read.hpp \
+  /opt/homebrew/include/boost/beast/http/parser.hpp \
+  /opt/homebrew/include/boost/beast/http/impl/parser.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/buffer.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/read.hpp \
+  /opt/homebrew/include/boost/beast/core/detail/impl/read.hpp \
+  /opt/homebrew/include/boost/beast/http/write.hpp \
+  /opt/homebrew/include/boost/beast/http/serializer.hpp \
+  /opt/homebrew/include/boost/beast/http/serializer_fwd.hpp \
+  /opt/homebrew/include/boost/beast/http/impl/serializer.hpp \
+  /opt/homebrew/include/boost/beast/http/impl/write.hpp \
+  /opt/homebrew/include/boost/beast/websocket/impl/accept.hpp \
+  /opt/homebrew/include/boost/beast/websocket/detail/type_traits.hpp \
+  /opt/homebrew/include/boost/beast/version.hpp \
+  /opt/homebrew/include/boost/beast/websocket/impl/close.hpp \
+  /opt/homebrew/include/boost/beast/websocket/impl/handshake.hpp \
+  /opt/homebrew/include/boost/beast/websocket/impl/ping.hpp \
+  /opt/homebrew/include/boost/beast/websocket/impl/read.hpp \
+  /opt/homebrew/include/boost/beast/websocket/impl/stream.hpp \
+  /opt/homebrew/include/boost/beast/websocket/impl/write.hpp \
+  /opt/homebrew/include/boost/property_tree/ptree.hpp \
+  /opt/homebrew/include/boost/property_tree/ptree_fwd.hpp \
+  /opt/homebrew/include/boost/property_tree/string_path.hpp \
+  /opt/homebrew/include/boost/property_tree/id_translator.hpp \
   /opt/homebrew/include/boost/property_tree/exceptions.hpp \
   /opt/homebrew/include/boost/any.hpp \
   /opt/homebrew/include/boost/any/detail/config.hpp \
@@ -1612,7 +2160,6 @@ CMakeFiles/engine.dir/src/main.cpp.o: \
   /opt/homebrew/include/boost/type_index/detail/config.hpp \
   /opt/homebrew/include/boost/type_index/stl_type_index.hpp \
   /opt/homebrew/include/boost/type_index/type_index_facade.hpp \
-  /opt/homebrew/include/boost/container_hash/hash_fwd.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/cxxabi.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__cxxabi_config.h \
   /opt/homebrew/include/boost/any/bad_any_cast.hpp \
@@ -1750,14 +2297,6 @@ CMakeFiles/engine.dir/src/main.cpp.o: \
   /opt/homebrew/include/boost/optional/optional_io.hpp \
   /opt/homebrew/include/boost/multi_index_container.hpp \
   /opt/homebrew/include/boost/core/no_exceptions_support.hpp \
-  /opt/homebrew/include/boost/move/core.hpp \
-  /opt/homebrew/include/boost/move/detail/config_begin.hpp \
-  /opt/homebrew/include/boost/move/detail/workaround.hpp \
-  /opt/homebrew/include/boost/move/detail/config_end.hpp \
-  /opt/homebrew/include/boost/move/utility_core.hpp \
-  /opt/homebrew/include/boost/move/detail/meta_utils.hpp \
-  /opt/homebrew/include/boost/move/detail/meta_utils_core.hpp \
-  /opt/homebrew/include/boost/move/detail/addressof.hpp \
   /opt/homebrew/include/boost/mpl/at.hpp \
   /opt/homebrew/include/boost/mpl/at_fwd.hpp \
   /opt/homebrew/include/boost/mpl/aux_/at_impl.hpp \
@@ -1980,8 +2519,6 @@ CMakeFiles/engine.dir/src/main.cpp.o: \
   /opt/homebrew/include/boost/multi_index/detail/access_specifier.hpp \
   /opt/homebrew/include/boost/multi_index/detail/adl_swap.hpp \
   /opt/homebrew/include/boost/multi_index/detail/allocator_traits.hpp \
-  /opt/homebrew/include/boost/type_traits/is_empty.hpp \
-  /opt/homebrew/include/boost/type_traits/add_reference.hpp \
   /opt/homebrew/include/boost/multi_index/detail/base_type.hpp \
   /opt/homebrew/include/boost/multi_index/detail/index_base.hpp \
   /opt/homebrew/include/boost/multi_index/detail/copy_map.hpp \
@@ -1991,7 +2528,6 @@ CMakeFiles/engine.dir/src/main.cpp.o: \
   /opt/homebrew/include/boost/multi_index/detail/do_not_copy_elements_tag.hpp \
   /opt/homebrew/include/boost/multi_index/detail/index_access_sequence.hpp \
   /opt/homebrew/include/boost/multi_index/detail/node_handle.hpp \
-  /opt/homebrew/include/boost/type_traits/aligned_storage.hpp \
   /opt/homebrew/include/boost/multi_index/detail/define_if_constexpr_macro.hpp \
   /opt/homebrew/include/boost/multi_index/detail/ignore_wstrict_aliasing.hpp \
   /opt/homebrew/include/boost/multi_index/detail/restore_wstrict_aliasing.hpp \
@@ -2013,11 +2549,6 @@ CMakeFiles/engine.dir/src/main.cpp.o: \
   /opt/homebrew/include/boost/core/ref.hpp \
   /opt/homebrew/include/boost/tuple/detail/tuple_basic.hpp \
   /opt/homebrew/include/boost/type_traits/cv_traits.hpp \
-  /opt/homebrew/include/boost/type_traits/add_const.hpp \
-  /opt/homebrew/include/boost/type_traits/add_volatile.hpp \
-  /opt/homebrew/include/boost/type_traits/add_cv.hpp \
-  /opt/homebrew/include/boost/type_traits/remove_volatile.hpp \
-  /opt/homebrew/include/boost/type_traits/function_traits.hpp \
   /opt/homebrew/include/boost/multi_index/detail/index_loader.hpp \
   /opt/homebrew/include/boost/multi_index/detail/index_saver.hpp \
   /opt/homebrew/include/boost/multi_index/detail/index_matcher.hpp \
@@ -2037,8 +2568,6 @@ CMakeFiles/engine.dir/src/main.cpp.o: \
   /opt/homebrew/include/boost/get_pointer.hpp \
   /opt/homebrew/include/boost/config/no_tr1/memory.hpp \
   /opt/homebrew/include/boost/bind/arg.hpp \
-  /opt/homebrew/include/boost/is_placeholder.hpp \
-  /opt/homebrew/include/boost/bind/std_placeholders.hpp \
   /opt/homebrew/include/boost/bind/detail/result_traits.hpp \
   /opt/homebrew/include/boost/bind/detail/tuple_for_each.hpp \
   /opt/homebrew/include/boost/bind/detail/integer_sequence.hpp \
@@ -2054,16 +2583,6 @@ CMakeFiles/engine.dir/src/main.cpp.o: \
   /opt/homebrew/include/boost/iterator/iterator_adaptor.hpp \
   /opt/homebrew/include/boost/core/use_default.hpp \
   /opt/homebrew/include/boost/iterator/iterator_categories.hpp \
-  /opt/homebrew/include/boost/mp11/utility.hpp \
-  /opt/homebrew/include/boost/mp11/integral.hpp \
-  /opt/homebrew/include/boost/mp11/version.hpp \
-  /opt/homebrew/include/boost/mp11/detail/mp_value.hpp \
-  /opt/homebrew/include/boost/mp11/detail/config.hpp \
-  /opt/homebrew/include/boost/mp11/detail/mp_list.hpp \
-  /opt/homebrew/include/boost/mp11/detail/mp_fold.hpp \
-  /opt/homebrew/include/boost/mp11/detail/mp_defer.hpp \
-  /opt/homebrew/include/boost/mp11/detail/mp_rename.hpp \
-  /opt/homebrew/include/boost/mp11/detail/mp_front.hpp \
   /opt/homebrew/include/boost/iterator/iterator_facade.hpp \
   /opt/homebrew/include/boost/iterator/interoperable.hpp \
   /opt/homebrew/include/boost/iterator/detail/type_traits/disjunction.hpp \
@@ -2081,7 +2600,6 @@ CMakeFiles/engine.dir/src/main.cpp.o: \
   /opt/homebrew/include/boost/multi_index/detail/seq_index_node.hpp \
   /opt/homebrew/include/boost/multi_index/detail/seq_index_ops.hpp \
   /opt/homebrew/include/boost/multi_index/sequenced_index_fwd.hpp \
-  /opt/homebrew/include/boost/type_traits/is_copy_constructible.hpp \
   /opt/homebrew/include/boost/multi_index/ordered_index.hpp \
   /opt/homebrew/include/boost/multi_index/detail/ord_index_impl.hpp \
   /opt/homebrew/include/boost/multi_index/detail/modify_key_adaptor.hpp \
@@ -2090,8 +2608,6 @@ CMakeFiles/engine.dir/src/main.cpp.o: \
   /opt/homebrew/include/boost/multi_index/detail/ord_index_ops.hpp \
   /opt/homebrew/include/boost/multi_index/detail/promotes_arg.hpp \
   /opt/homebrew/include/boost/multi_index/detail/is_transparent.hpp \
-  /opt/homebrew/include/boost/type_traits/is_final.hpp \
-  /opt/homebrew/include/boost/type_traits/remove_pointer.hpp \
   /opt/homebrew/include/boost/multi_index/detail/unbounded.hpp \
   /opt/homebrew/include/boost/multi_index/detail/value_compare.hpp \
   /opt/homebrew/include/boost/multi_index/detail/duplicates_iterator.hpp \
@@ -2106,7 +2622,6 @@ CMakeFiles/engine.dir/src/main.cpp.o: \
   /opt/homebrew/include/boost/property_tree/json_parser/detail/parser.hpp \
   /opt/homebrew/include/boost/property_tree/json_parser/detail/narrow_encoding.hpp \
   /opt/homebrew/include/boost/range/iterator_range_core.hpp \
-  /opt/homebrew/include/boost/type_traits/is_abstract.hpp \
   /opt/homebrew/include/boost/range/functions.hpp \
   /opt/homebrew/include/boost/range/begin.hpp \
   /opt/homebrew/include/boost/range/config.hpp \
@@ -2150,9 +2665,6 @@ CMakeFiles/engine.dir/src/main.cpp.o: \
   /opt/homebrew/include/boost/iterator/iterator_concepts.hpp \
   /opt/homebrew/include/boost/range/value_type.hpp \
   /opt/homebrew/include/boost/range/detail/misc_concept.hpp \
-  /opt/homebrew/include/boost/type_traits/make_unsigned.hpp \
-  /opt/homebrew/include/boost/type_traits/is_signed.hpp \
-  /opt/homebrew/include/boost/type_traits/is_unsigned.hpp \
   /opt/homebrew/include/boost/range/detail/has_member_size.hpp \
   /opt/homebrew/include/boost/utility.hpp \
   /opt/homebrew/include/boost/utility/binary.hpp \
@@ -2166,7 +2678,6 @@ CMakeFiles/engine.dir/src/main.cpp.o: \
   /opt/homebrew/include/boost/preprocessor/comparison/less_equal.hpp \
   /opt/homebrew/include/boost/preprocessor/arithmetic/detail/is_1_number.hpp \
   /opt/homebrew/include/boost/utility/identity_type.hpp \
-  /opt/homebrew/include/boost/core/checked_delete.hpp \
   /opt/homebrew/include/boost/range/distance.hpp \
   /opt/homebrew/include/boost/iterator/distance.hpp \
   /opt/homebrew/include/boost/range/empty.hpp \
@@ -2176,12 +2687,6 @@ CMakeFiles/engine.dir/src/main.cpp.o: \
   /opt/homebrew/include/boost/range/algorithm/equal.hpp \
   /opt/homebrew/include/boost/range/detail/safe_bool.hpp \
   /opt/homebrew/include/boost/next_prior.hpp \
-  /opt/homebrew/include/boost/type_traits/has_plus.hpp \
-  /opt/homebrew/include/boost/type_traits/detail/has_binary_operator.hpp \
-  /opt/homebrew/include/boost/type_traits/make_void.hpp \
-  /opt/homebrew/include/boost/type_traits/has_plus_assign.hpp \
-  /opt/homebrew/include/boost/type_traits/has_minus.hpp \
-  /opt/homebrew/include/boost/type_traits/has_minus_assign.hpp \
   /opt/homebrew/include/boost/iterator/is_iterator.hpp \
   /opt/homebrew/include/boost/iterator/advance.hpp \
   /opt/homebrew/include/boost/property_tree/json_parser/detail/wide_encoding.hpp \
