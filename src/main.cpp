@@ -4,6 +4,7 @@
 #include <unordered_set>
 #include <mutex>
 #include <sstream>
+#include <algorithm>
 
 #include <boost/asio.hpp>
 #include <boost/property_tree/ptree.hpp>
@@ -56,29 +57,57 @@ public:
     }
 
     void set_partner(std::shared_ptr<Session> partner) {
+        std::lock_guard<std::mutex> lock(session_mutex_);
         partner_ = partner;
     }
 
     void clear_partner() {
+        std::lock_guard<std::mutex> lock(session_mutex_);
         partner_.reset();
+    }
+
+    bool is_closed() const {
+        std::lock_guard<std::mutex> lock(session_mutex_);
+        return closed_;
     }
 
 private:
     tcp::socket socket_;
     std::shared_ptr<Session> partner_;
     asio::streambuf buffer_;
+    mutable std::mutex session_mutex_;
     bool closed_ = false;
 
     void try_match() {
         std::lock_guard<std::mutex> lock(global_mutex);
 
-        if (closed_) return;
+        {
+            std::lock_guard<std::mutex> slock(session_mutex_);
+            if (closed_) return;
+        }
+
+        // Clean up closed sessions from waiting pool
+        waiting_pool.erase(
+            std::remove_if(waiting_pool.begin(), waiting_pool.end(),
+                [](const std::shared_ptr<Session>& s) { return s->is_closed(); }),
+            waiting_pool.end()
+        );
 
         if (!waiting_pool.empty()) {
             auto partner = waiting_pool.front();
             waiting_pool.pop_front();
 
-            partner_ = partner;
+            // Double-check partner is still valid
+            if (partner->is_closed()) {
+                // Try again with cleaned pool
+                try_match();
+                return;
+            }
+
+            {
+                std::lock_guard<std::mutex> slock(session_mutex_);
+                partner_ = partner;
+            }
             partner->set_partner(shared_from_this());
 
             send(make_json("status", "Matched"));
@@ -117,8 +146,13 @@ private:
             if (type == "msg") {
                 std::string text = tree.get<std::string>("text", "");
 
-                auto partner = partner_;
-                if (partner) {
+                std::shared_ptr<Session> partner;
+                {
+                    std::lock_guard<std::mutex> lock(session_mutex_);
+                    partner = partner_;
+                }
+
+                if (partner && !partner->is_closed()) {
                     partner->send(make_json("chat", text));
                 } else {
                     send(make_json("error", "Not matched"));
@@ -128,49 +162,68 @@ private:
                 std::shared_ptr<Session> old_partner;
 
                 {
-                    std::lock_guard<std::mutex> lock(global_mutex);
+                    std::lock_guard<std::mutex> glock(global_mutex);
+                    std::lock_guard<std::mutex> slock(session_mutex_);
+                    
                     if (partner_) {
                         old_partner = partner_;
-                        clear_partner();
+                        partner_.reset();
                         old_partner->clear_partner();
                     }
                 }
 
-                if (old_partner) old_partner->try_match();
+                if (old_partner && !old_partner->is_closed()) {
+                    old_partner->send(make_json("info", "Partner skipped"));
+                    old_partner->try_match();
+                }
                 try_match();
             }
             else {
                 send(make_json("error", "Unknown type"));
             }
 
-        } catch (...) {
+        } catch (const std::exception& e) {
             send(make_json("error", "Invalid JSON"));
         }
     }
 
     void close() {
         std::shared_ptr<Session> partner_copy;
+        bool was_closed = false;
 
         {
-            std::lock_guard<std::mutex> lock(global_mutex);
+            std::lock_guard<std::mutex> glock(global_mutex);
+            std::lock_guard<std::mutex> slock(session_mutex_);
 
             if (closed_) return;
             closed_ = true;
+            was_closed = true;
 
             if (partner_) {
                 partner_copy = partner_;
-                partner_->clear_partner();
-                clear_partner();
+                partner_.reset();
             }
+
+            // Remove from waiting pool if present
+            waiting_pool.erase(
+                std::remove(waiting_pool.begin(), waiting_pool.end(), shared_from_this()),
+                waiting_pool.end()
+            );
 
             sessions.erase(shared_from_this());
         }
 
+        // Clear partner's reference to this session
         if (partner_copy) {
-            partner_copy->send(make_json("info", "Partner disconnected"));
-            partner_copy->try_match();
+            partner_copy->clear_partner();
+            
+            if (!partner_copy->is_closed()) {
+                partner_copy->send(make_json("info", "Partner disconnected"));
+                partner_copy->try_match();
+            }
         }
 
+        // Close socket outside of locks
         boost::system::error_code ec;
         socket_.close(ec);
     }
@@ -203,10 +256,18 @@ int main() {
         Server server(io, 8080);
 
         std::cout << "JSON matchmaking server running on port 8080\n";
+        std::cout << "Protocol:\n";
+        std::cout << "  - Send: {\"type\":\"msg\",\"text\":\"your message\"}\n";
+        std::cout << "  - Send: {\"type\":\"skip\"} to find new partner\n";
+        std::cout << "  - Receive: {\"type\":\"chat\",\"message\":\"partner's message\"}\n";
+        std::cout << "  - Receive: {\"type\":\"status\",\"message\":\"Matched|Waiting\"}\n\n";
 
         io.run();
     }
-    catch (std::exception& e) {
-        std::cerr << e.what() << std::endl;
+    catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return 1;
     }
+
+    return 0;
 }
