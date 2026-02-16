@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/azureuser/chat-app/Chat-server/build",
+  "command": "/usr/bin/c++ -DBOOST_SYSTEM_DYN_LINK -DBOOST_SYSTEM_NO_LIB  -std=gnu++20 -o CMakeFiles/engine.dir/src/main.cpp.o -c /home/azureuser/chat-app/Chat-server/src/main.cpp",
+  "file": "/home/azureuser/chat-app/Chat-server/src/main.cpp",
+  "output": "CMakeFiles/engine.dir/src/main.cpp.o"
+}
+]
