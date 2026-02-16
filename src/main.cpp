@@ -645,7 +645,7 @@ void Session::try_match() {
 // ============================================================================
 // CLEANUP THREAD
 // ============================================================================
-void cleanup_thread(asio::io_context& io) {
+void cleanup_thread() {
     while (true) {
         std::this_thread::sleep_for(std::chrono::seconds(Config::CLEANUP_INTERVAL_SECONDS));
         
