@@ -5,15 +5,16 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# Output directories
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
-option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+# Options
 option(BUILD_TESTS "Build test suite" OFF)
-option(BUILD_EXAMPLES "Build examples" OFF)
 option(ENABLE_WARNINGS "Enable compiler warnings" ON)
 
+# Compiler Warnings
 if(ENABLE_WARNINGS)
     if(MSVC)
         add_compile_options(/W4)
@@ -24,10 +25,14 @@ endif()
 
 include(GNUInstallDirs)
 
+# 1. Collect Files
 file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.c")
 file(GLOB_RECURSE HEADERS "include/*.h" "include/*.hpp")
 
+# 2. CREATE THE TARGET (This was missing!)
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
+# 3. Configure the target
 target_include_directories(${PROJECT_NAME}
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -36,33 +41,25 @@ target_include_directories(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
+# Required for Boost.Asio/Networking
+find_package(Threads REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads)
+
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION_MAJOR}
-    PUBLIC_HEADER "${HEADERS}"
 )
 
+# Testing/Examples (Optional)
 if(BUILD_TESTS)
     enable_testing()
     add_subdirectory(tests)
 endif()
 
-if(BUILD_EXAMPLES)
-    add_subdirectory(examples)
-endif()
-
+# Installation logic
 install(TARGETS ${PROJECT_NAME}
     EXPORT ${PROJECT_NAME}Targets
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
-)
-
-install(EXPORT ${PROJECT_NAME}Targets
-    FILE ${PROJECT_NAME}Targets.cmake
-    NAMESPACE ${PROJECT_NAME}::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
