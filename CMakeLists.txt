@@ -27,7 +27,6 @@ include(GNUInstallDirs)
 file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.c")
 file(GLOB_RECURSE HEADERS "include/*.h" "include/*.hpp")
 
-add_library(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC

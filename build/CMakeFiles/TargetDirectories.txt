@@ -1,3 +1,0 @@
-/home/azureuser/chat-app/Chat-server/build/CMakeFiles/engine.dir
-/home/azureuser/chat-app/Chat-server/build/CMakeFiles/edit_cache.dir
-/home/azureuser/chat-app/Chat-server/build/CMakeFiles/rebuild_cache.dir
