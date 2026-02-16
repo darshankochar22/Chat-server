@@ -72,9 +72,20 @@
             color: white;
         }
         
+        .disconnected {
+            background: #d32f2f;
+            color: white;
+        }
+        
+        .reconnecting {
+            background: #ff9800;
+            color: white;
+            animation: pulse 1s infinite;
+        }
+        
         @keyframes pulse {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+            50% { opacity: 0.6; }
         }
         
         /* Messages Container */
@@ -151,11 +162,48 @@
             max-width: 80%;
         }
         
-        .message-label {
+        .message-time {
             font-size: 11px;
-            opacity: 0.8;
-            margin-bottom: 4px;
-            font-weight: 600;
+            opacity: 0.6;
+            margin-top: 4px;
+        }
+        
+        /* Typing Indicator */
+        .typing-indicator {
+            align-self: flex-start;
+            background: #1f2c33;
+            padding: 12px 16px;
+            border-radius: 18px;
+            border-bottom-left-radius: 4px;
+            display: flex;
+            gap: 4px;
+        }
+        
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: #8696a0;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.7;
+            }
+            30% {
+                transform: translateY(-10px);
+                opacity: 1;
+            }
         }
         
         /* Input Area */
@@ -167,31 +215,19 @@
             padding-bottom: max(8px, env(safe-area-inset-bottom));
         }
         
-        #skipBtn {
-            width: 48px;
-            height: 48px;
-            background: #d32f2f;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            font-size: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        #charCount {
+            font-size: 11px;
+            color: #8696a0;
+            text-align: right;
+            margin-bottom: 4px;
         }
         
-        #skipBtn:active:not(:disabled) {
-            transform: scale(0.95);
-            background: #b71c1c;
+        #charCount.warning {
+            color: #ff9800;
         }
         
-        #skipBtn:disabled {
-            background: #2a3942;
-            cursor: not-allowed;
-            opacity: 0.5;
+        #charCount.error {
+            color: #d32f2f;
         }
         
         #inputArea {
@@ -230,20 +266,23 @@
             color: #667781;
         }
         
-        #sendBtn {
+        button {
             width: 48px;
             height: 48px;
-            background: #25d366;
-            color: white;
             border: none;
             border-radius: 50%;
             cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 20px;
-            transition: all 0.3s ease;
-            flex-shrink: 0;
+        }
+        
+        #sendBtn {
+            background: #25d366;
+            color: white;
         }
         
         #sendBtn:active:not(:disabled) {
@@ -260,6 +299,22 @@
         #sendBtn::before {
             content: "➤";
             display: block;
+        }
+        
+        #skipBtn {
+            background: #d32f2f;
+            color: white;
+        }
+        
+        #skipBtn:active:not(:disabled) {
+            transform: scale(0.95);
+            background: #b71c1c;
+        }
+        
+        #skipBtn:disabled {
+            background: #2a3942;
+            cursor: not-allowed;
+            opacity: 0.5;
         }
         
         /* Empty state */
@@ -292,7 +347,7 @@
             opacity: 0.7;
         }
         
-        /* Full screen on all devices like WhatsApp */
+        /* Full screen */
         #chatContainer {
             display: flex;
             flex-direction: column;
@@ -317,6 +372,7 @@
         </div>
         
         <div id="inputWrapper">
+            <div id="charCount">0/500</div>
             <div id="inputArea">
                 <input type="text" id="messageInput" placeholder="Type a message..." disabled autocomplete="off">
                 <button id="sendBtn" onclick="sendMessage()" disabled></button>
@@ -328,65 +384,143 @@
     <script>
         let ws;
         let isMatched = false;
-        const serverUrl = 'ws://20.193.154.3:8080';
+        let reconnectAttempts = 0;
+        let maxReconnectAttempts = 5;
+        let reconnectDelay = 1000; // Start with 1 second
+        let heartbeatInterval;
+        let typingTimeout;
+        let typingIndicator = null;
+        
+        const serverUrl = 'ws://20.193.154.3:8080'; // Change to your server
         const messagesContainer = document.getElementById('messagesContainer');
         const emptyState = document.getElementById('emptyState');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const skipBtn = document.getElementById('skipBtn');
+        const charCount = document.getElementById('charCount');
         
         // Connect to server
         function connect() {
-            ws = new WebSocket(serverUrl);
+            updateStatus('reconnecting', 'Connecting...');
             
-            ws.onopen = () => {
-                console.log('Connected');
-                updateStatus('connected', 'Connected');
-            };
-            
-            ws.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                handleMessage(data);
-            };
-            
-            ws.onerror = (error) => {
-                console.error('Error:', error);
-                addSystemMessage('Connection error');
-            };
-            
-            ws.onclose = () => {
-                console.log('Disconnected');
-                updateStatus('connected', 'Disconnected');
-                addSystemMessage('Disconnected. Refresh to reconnect.');
-                document.getElementById('messageInput').disabled = true;
-                document.getElementById('sendBtn').disabled = true;
-                document.getElementById('skipBtn').disabled = true;
-            };
+            try {
+                ws = new WebSocket(serverUrl);
+                
+                ws.onopen = () => {
+                    console.log('Connected');
+                    reconnectAttempts = 0;
+                    reconnectDelay = 1000;
+                    updateStatus('connected', 'Connected');
+                    startHeartbeat();
+                };
+                
+                ws.onmessage = (event) => {
+                    const data = JSON.parse(event.data);
+                    handleMessage(data);
+                };
+                
+                ws.onerror = (error) => {
+                    console.error('WebSocket error:', error);
+                };
+                
+                ws.onclose = () => {
+                    console.log('Disconnected');
+                    stopHeartbeat();
+                    updateStatus('disconnected', 'Disconnected');
+                    
+                    messageInput.disabled = true;
+                    sendBtn.disabled = true;
+                    skipBtn.disabled = true;
+                    
+                    // Attempt to reconnect
+                    attemptReconnect();
+                };
+            } catch (error) {
+                console.error('Connection error:', error);
+                attemptReconnect();
+            }
+        }
+        
+        function attemptReconnect() {
+            if (reconnectAttempts < maxReconnectAttempts) {
+                reconnectAttempts++;
+                updateStatus('reconnecting', `Reconnecting (${reconnectAttempts}/${maxReconnectAttempts})...`);
+                
+                setTimeout(() => {
+                    connect();
+                }, reconnectDelay);
+                
+                // Exponential backoff
+                reconnectDelay = Math.min(reconnectDelay * 2, 30000); // Max 30 seconds
+            } else {
+                updateStatus('disconnected', 'Connection failed. Refresh to retry.');
+                addSystemMessage('❌ Could not reconnect. Please refresh the page.');
+            }
+        }
+        
+        function startHeartbeat() {
+            heartbeatInterval = setInterval(() => {
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    // Server sends pings, we respond with pongs
+                    // This is handled automatically in handleMessage
+                }
+            }, 30000); // 30 seconds
+        }
+        
+        function stopHeartbeat() {
+            if (heartbeatInterval) {
+                clearInterval(heartbeatInterval);
+                heartbeatInterval = null;
+            }
         }
         
         function handleMessage(data) {
+            if (data.type === 'ping') {
+                // Respond to server ping with pong
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    ws.send(JSON.stringify({ type: 'pong' }));
+                }
+                return;
+            }
+            
             if (data.type === 'info') {
                 addSystemMessage(data.message);
+            }
+            else if (data.type === 'session_id') {
+                console.log('Session ID:', data.message);
             }
             else if (data.type === 'status') {
                 if (data.message === 'Matched') {
                     isMatched = true;
                     updateStatus('matched', 'Chatting');
                     addSystemMessage('🎉 Connected with a stranger!');
-                    document.getElementById('messageInput').disabled = false;
-                    document.getElementById('sendBtn').disabled = false;
-                    document.getElementById('skipBtn').disabled = false;
+                    messageInput.disabled = false;
+                    updateSendButton();
+                    skipBtn.disabled = false;
+                    messageInput.focus();
                 }
                 else if (data.message === 'Waiting') {
                     isMatched = false;
                     updateStatus('waiting', 'Searching...');
-                    document.getElementById('messageInput').disabled = true;
-                    document.getElementById('sendBtn').disabled = true;
-                    document.getElementById('skipBtn').disabled = true;
+                    messageInput.disabled = true;
+                    sendBtn.disabled = true;
+                    skipBtn.disabled = true;
+                    removeTypingIndicator();
                 }
             }
             else if (data.type === 'chat') {
                 addReceivedMessage(data.message);
+                removeTypingIndicator();
+            }
+            else if (data.type === 'typing') {
+                if (data.status) {
+                    showTypingIndicator();
+                } else {
+                    removeTypingIndicator();
+                }
             }
             else if (data.type === 'error') {
-                addSystemMessage('❌ Error: ' + data.message);
+                addSystemMessage('❌ ' + data.message);
             }
         }
         
@@ -409,18 +543,62 @@
             removeEmptyState();
             const msg = document.createElement('div');
             msg.className = 'message sent';
-            msg.textContent = text;
+            
+            const time = new Date().toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit'
+            });
+            
+            msg.innerHTML = `
+                <div>${escapeHtml(text)}</div>
+                <div class="message-time">${time}</div>
+            `;
             messagesContainer.appendChild(msg);
             scrollToBottom();
         }
         
         function addReceivedMessage(text) {
             removeEmptyState();
+            removeTypingIndicator();
+            
             const msg = document.createElement('div');
             msg.className = 'message received';
-            msg.textContent = text;
+            
+            const time = new Date().toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit'
+            });
+            
+            msg.innerHTML = `
+                <div>${escapeHtml(text)}</div>
+                <div class="message-time">${time}</div>
+            `;
             messagesContainer.appendChild(msg);
             scrollToBottom();
+        }
+        
+        function showTypingIndicator() {
+            if (!typingIndicator) {
+                removeEmptyState();
+                typingIndicator = document.createElement('div');
+                typingIndicator.className = 'typing-indicator';
+                typingIndicator.innerHTML = '<span></span><span></span><span></span>';
+                messagesContainer.appendChild(typingIndicator);
+                scrollToBottom();
+            }
+        }
+        
+        function removeTypingIndicator() {
+            if (typingIndicator) {
+                typingIndicator.remove();
+                typingIndicator = null;
+            }
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
         
         function scrollToBottom() {
@@ -434,18 +612,26 @@
         }
         
         function sendMessage() {
-            const input = document.getElementById('messageInput');
-            const message = input.value.trim();
+            const message = messageInput.value.trim();
             
             if (message && isMatched && ws.readyState === WebSocket.OPEN) {
+                if (message.length > 500) {
+                    addSystemMessage('❌ Message too long (max 500 characters)');
+                    return;
+                }
+                
                 ws.send(JSON.stringify({
                     type: 'msg',
                     text: message
                 }));
                 
                 addSentMessage(message);
-                input.value = '';
-                input.style.height = 'auto';
+                messageInput.value = '';
+                updateCharCount();
+                updateSendButton();
+                
+                // Stop typing indicator
+                sendTypingStatus(false);
             }
         }
         
@@ -457,24 +643,67 @@
                 
                 isMatched = false;
                 addSystemMessage('🔍 Looking for new chat partner...');
-                document.getElementById('messageInput').disabled = true;
-                document.getElementById('sendBtn').disabled = true;
-                document.getElementById('skipBtn').disabled = true;
+                messageInput.disabled = true;
+                sendBtn.disabled = true;
+                skipBtn.disabled = true;
+                removeTypingIndicator();
             }
         }
         
-        // Send on Enter key
-        document.getElementById('messageInput').addEventListener('keypress', (e) => {
+        function sendTypingStatus(isTyping) {
+            if (ws && ws.readyState === WebSocket.OPEN && isMatched) {
+                ws.send(JSON.stringify({
+                    type: 'typing',
+                    status: isTyping
+                }));
+            }
+        }
+        
+        function updateCharCount() {
+            const count = messageInput.value.length;
+            charCount.textContent = `${count}/500`;
+            
+            if (count > 500) {
+                charCount.className = 'error';
+                messageInput.value = messageInput.value.substring(0, 500);
+            } else if (count > 450) {
+                charCount.className = 'warning';
+            } else {
+                charCount.className = '';
+            }
+        }
+        
+        function updateSendButton() {
+            sendBtn.disabled = !messageInput.value.trim() || !isMatched;
+        }
+        
+        // Event listeners
+        messageInput.addEventListener('input', function() {
+            updateCharCount();
+            updateSendButton();
+            
+            // Auto-resize textarea
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+            
+            // Send typing indicator
+            if (this.value.length > 0) {
+                clearTimeout(typingTimeout);
+                sendTypingStatus(true);
+                
+                typingTimeout = setTimeout(() => {
+                    sendTypingStatus(false);
+                }, 3000);
+            } else {
+                sendTypingStatus(false);
+            }
+        });
+        
+        messageInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 sendMessage();
             }
-        });
-        
-        // Auto-resize textarea
-        document.getElementById('messageInput').addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 100) + 'px';
         });
         
         // Connect on load
