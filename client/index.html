@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Anonymous Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        
+        #status {
+            text-align: center;
+            padding: 10px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .connected { background-color: #d4edda; color: #155724; }
+        .waiting { background-color: #fff3cd; color: #856404; }
+        .matched { background-color: #d1ecf1; color: #0c5460; }
+        
+        #messages {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        
+        .message {
+            margin: 10px 0;
+            padding: 8px 12px;
+            border-radius: 5px;
+        }
+        
+        .sent {
+            background-color: #007bff;
+            color: white;
+            text-align: right;
+        }
+        
+        .received {
+            background-color: #e9ecef;
+            color: #333;
+        }
+        
+        .system {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        #inputArea {
+            display: flex;
+            gap: 10px;
+        }
+        
+        #messageInput {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        #sendBtn {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        #sendBtn:hover {
+            background-color: #0056b3;
+        }
+        
+        #skipBtn {
+            background-color: #dc3545;
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        #skipBtn:hover {
+            background-color: #c82333;
+        }
+        
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h1>Anonymous Chat</h1>
+    
+    <div id="status" class="connected">Connecting...</div>
+    
+    <div id="messages"></div>
+    
+    <button id="skipBtn" onclick="skipPartner()" disabled>Skip Partner</button>
+    
+    <div id="inputArea">
+        <input type="text" id="messageInput" placeholder="Type a message..." disabled>
+        <button id="sendBtn" onclick="sendMessage()" disabled>Send</button>
+    </div>
+
+    <script>
+        let ws;
+        let isMatched = false;
+        const serverUrl = 'ws://localhost:8080';
+        
+        // Connect to server
+        function connect() {
+            ws = new WebSocket(serverUrl);
+            
+            ws.onopen = () => {
+                console.log('Connected');
+                updateStatus('connected', 'Connected');
+            };
+            
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                handleMessage(data);
+            };
+            
+            ws.onerror = (error) => {
+                console.error('Error:', error);
+                addSystemMessage('Connection error');
+            };
+            
+            ws.onclose = () => {
+                console.log('Disconnected');
+                updateStatus('connected', 'Disconnected');
+                addSystemMessage('Disconnected. Refresh to reconnect.');
+                document.getElementById('messageInput').disabled = true;
+                document.getElementById('sendBtn').disabled = true;
+                document.getElementById('skipBtn').disabled = true;
+            };
+        }
+        
+        function handleMessage(data) {
+            if (data.type === 'info') {
+                addSystemMessage(data.message);
+            }
+            else if (data.type === 'status') {
+                if (data.message === 'Matched') {
+                    isMatched = true;
+                    updateStatus('matched', 'Matched! Start chatting');
+                    addSystemMessage('Connected with a stranger');
+                    document.getElementById('messageInput').disabled = false;
+                    document.getElementById('sendBtn').disabled = false;
+                    document.getElementById('skipBtn').disabled = false;
+                }
+                else if (data.message === 'Waiting') {
+                    isMatched = false;
+                    updateStatus('waiting', 'Waiting for partner...');
+                    document.getElementById('messageInput').disabled = true;
+                    document.getElementById('sendBtn').disabled = true;
+                    document.getElementById('skipBtn').disabled = true;
+                }
+            }
+            else if (data.type === 'chat') {
+                addReceivedMessage(data.message);
+            }
+            else if (data.type === 'error') {
+                addSystemMessage('Error: ' + data.message);
+            }
+        }
+        
+        function addSystemMessage(text) {
+            const div = document.getElementById('messages');
+            const msg = document.createElement('div');
+            msg.className = 'message system';
+            msg.textContent = text;
+            div.appendChild(msg);
+            div.scrollTop = div.scrollHeight;
+        }
+        
+        function addSentMessage(text) {
+            const div = document.getElementById('messages');
+            const msg = document.createElement('div');
+            msg.className = 'message sent';
+            msg.textContent = 'You: ' + text;
+            div.appendChild(msg);
+            div.scrollTop = div.scrollHeight;
+        }
+        
+        function addReceivedMessage(text) {
+            const div = document.getElementById('messages');
+            const msg = document.createElement('div');
+            msg.className = 'message received';
+            msg.textContent = 'Stranger: ' + text;
+            div.appendChild(msg);
+            div.scrollTop = div.scrollHeight;
+        }
+        
+        function updateStatus(className, text) {
+            const status = document.getElementById('status');
+            status.className = className;
+            status.textContent = text;
+        }
+        
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message && isMatched && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                    type: 'msg',
+                    text: message
+                }));
+                
+                addSentMessage(message);
+                input.value = '';
+            }
+        }
+        
+        function skipPartner() {
+            if (isMatched && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                    type: 'skip'
+                }));
+                
+                isMatched = false;
+                addSystemMessage('Looking for new partner...');
+                document.getElementById('messageInput').disabled = true;
+                document.getElementById('sendBtn').disabled = true;
+                document.getElementById('skipBtn').disabled = true;
+            }
+        }
+        
+        // Send on Enter key
+        document.getElementById('messageInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        // Connect on load
+        connect();
+    </script>
+</body>
+</html>
