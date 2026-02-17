@@ -29,7 +29,9 @@ void Server::do_accept() {
                     Logger::instance().warn("Rejected connection from " + ip + " (too many connections)");
                     socket.close();
                 } else {
-                    auto session = std::make_shared<Session>(std::move(socket), ip);
+             
+                    auto session = std::make_shared<Session>(std::move(socket), ssl_ctx_, ip);
+
                     
                     {
                         std::lock_guard<std::mutex> lock(global_mutex);
