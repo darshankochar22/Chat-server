@@ -1,8 +1,10 @@
 #include "chat_server.h"
+#include<boost/asio/ssl.hpp>
 
-Server::Server(asio::io_context& io, short port)
+Server::Server(asio::io_context& io, short port,asio::ssl::context& ctx)
     : acceptor_(io, tcp::endpoint(tcp::v4(), port))
-    , io_context_(io) {
+    , io_context_(io) 
+    ,ssl_ctx_(ctx){
     
     cleanup_thread_ = std::thread([&io]() {
         cleanup_thread(io);
@@ -61,7 +63,10 @@ int main() {
         Logger::instance().info("  - Max connections per IP: " + std::to_string(Config::MAX_CONNECTIONS_PER_IP));
         
         asio::io_context io;
-        Server server(io, 8080);
+        asio::ssl::context ctx{asio::ssl::context::tlsv12};
+        ctx.use_certificate_chain_file("server.crt");
+        ctx.use_private_key_file("server.key", asio::ssl::context::pem);
+        Server server(io, 8080,ctx);
         
         Logger::instance().info("Server running on port 8080");
         Logger::instance().info("Logging to: chat_server.log");

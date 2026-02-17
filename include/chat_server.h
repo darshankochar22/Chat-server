@@ -20,10 +20,14 @@
 #include <boost/beast/websocket.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include <boost/asio/ssl.hpp>
+#include <boost/beast/ssl.hpp>  
+#include <boost/beast/websocket/ssl.hpp>
 
 namespace asio = boost::asio;
 namespace beast = boost::beast;
 namespace websocket = beast::websocket;
+namespace ssl = asio::ssl;
 using tcp = asio::ip::tcp;
 using boost::property_tree::ptree;
 
@@ -110,9 +114,10 @@ std::string make_json(const std::string& type, const std::string& message = "");
 // Session class forward declaration
 class Session : public std::enable_shared_from_this<Session> {
 public:
-    explicit Session(tcp::socket socket, const std::string& ip);
+    explicit Session(tcp::socket socket, ssl::context& ctx, const std::string& ip);
     
     void start();
+    void on_ssl_handshake(beast::error_code ec);
     void send(const std::string& msg);
     void set_partner(std::shared_ptr<Session> partner);
     void clear_partner();
@@ -124,7 +129,7 @@ public:
     std::string get_session_id() const;
 
 private:
-    websocket::stream<tcp::socket> ws_;
+    websocket::stream<beast::ssl_stream<tcp::socket>> ws_;
     beast::flat_buffer buffer_;
     std::shared_ptr<Session> partner_;
     mutable std::mutex session_mutex_;
@@ -157,12 +162,13 @@ void cleanup_thread(asio::io_context& io);
 // Server class
 class Server {
 public:
-    Server(asio::io_context& io, short port);
+    Server(asio::io_context& io, short port, ssl::context& ctx);
     ~Server();
 
 private:
     tcp::acceptor acceptor_;
     asio::io_context& io_context_;
+    ssl::context& ssl_ctx_;
     std::thread cleanup_thread_;
     
     void do_accept();

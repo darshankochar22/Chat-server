@@ -1,5 +1,5 @@
 #include "chat_server.h"
-
+namespace ssl = boost::asio::ssl;
 // Global state definitions
 std::deque<std::shared_ptr<Session>> waiting_pool;
 std::unordered_set<std::shared_ptr<Session>> sessions;
@@ -7,8 +7,8 @@ std::mutex global_mutex;
 
 // ==================== SESSION IMPLEMENTATION ====================
 
-Session::Session(tcp::socket socket, const std::string& ip)
-    : ws_(std::move(socket))
+Session::Session(tcp::socket socket,ssl::context& ctx ,const std::string& ip)
+    : ws_(std::move(socket),ctx)
     , ip_address_(ip)
     , session_id_(generate_session_id())
     , last_activity_(std::chrono::steady_clock::now())
@@ -16,32 +16,46 @@ Session::Session(tcp::socket socket, const std::string& ip)
 }
 
 void Session::start() {
-    ws_.set_option(websocket::stream_base::timeout::suggested(beast::role_type::server));
-    ws_.set_option(websocket::stream_base::decorator(
-        [](websocket::response_type& res) {
-            res.set(beast::http::field::server, "AnonymousChat/2.0");
-        }));
-    
-    ws_.async_accept([self = shared_from_this()](beast::error_code ec) {
-        if (!ec) {
-            Logger::instance().info("New connection: " + self->session_id_ + " from " + self->ip_address_);
-            Metrics::instance().increment_connections();
-            
-            self->send(make_json("info", "Welcome to Anonymous Chat"));
-            self->send(make_json("session_id", self->session_id_));
-            self->try_match();
-            self->do_read();
-            self->start_heartbeat();
-        } else {
-            Logger::instance().error("WebSocket accept error: " + ec.message());
-        }
-    });
+    auto self(shared_from_this());
+
+    // 1. Perform the SSL Handshake first
+    ws_.next_layer().async_handshake(
+        ssl::stream_base::server,
+        [self](beast::error_code ec) {
+            if (ec) {
+                Logger::instance().error("SSL Handshake error: " + ec.message());
+                return; 
+            }
+
+            // 2. SSL Success! Now run your original WebSocket logic
+            self->ws_.set_option(websocket::stream_base::timeout::suggested(beast::role_type::server));
+            self->ws_.set_option(websocket::stream_base::decorator(
+                [](websocket::response_type& res) {
+                    res.set(beast::http::field::server, "AnonymousChat/2.0");
+                }));
+
+            self->ws_.async_accept([self](beast::error_code ec) {
+                if (!ec) {
+                    Logger::instance().info("New Secure connection: " + self->session_id_ + " from " + self->ip_address_);
+                    Metrics::instance().increment_connections();
+                    
+                    self->send(make_json("info", "Welcome to Anonymous Chat (Secure)"));
+                    self->send(make_json("session_id", self->session_id_));
+                    self->try_match();
+                    self->do_read();
+                    self->start_heartbeat();
+                } else {
+                    Logger::instance().error("WebSocket accept error: " + ec.message());
+                }
+            });
+        });
 }
+
 
 void Session::send(const std::string& msg) {
     auto self(shared_from_this());
     
-    asio::post(ws_.get_executor(), [this, self, msg]() {
+    asio::post(beast::get_lowest_layer(ws_).get_executor(), [this, self, msg]() {
         bool write_in_progress = !write_queue_.empty();
         write_queue_.push_back(msg);
         
@@ -109,7 +123,7 @@ void Session::send_ping() {
     
     // Schedule next ping
     auto timer = std::make_shared<asio::steady_timer>(
-        ws_.get_executor(),
+        beast::get_lowest_layer(ws_).get_executor(),
         std::chrono::milliseconds(Config::HEARTBEAT_INTERVAL_MS)
     );
     
@@ -334,7 +348,9 @@ void Session::close() {
     }
     
     beast::error_code ec;
-    ws_.close(websocket::close_code::normal, ec);
+    ws_.close(websocket::close_code::normal, ec);   
+    ws_.next_layer().shutdown(ec);
+     beast::get_lowest_layer(ws_).close();
     
     IPTracker().disconnect(ip_address_);
     Metrics::instance().decrement_connections();
