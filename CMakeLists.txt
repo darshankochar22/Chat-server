@@ -43,9 +43,11 @@ target_include_directories(${PROJECT_NAME}
 
 # Required for Boost.Asio/Networking
 find_package(Threads REQUIRED)
-target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads)
+find_package(OpenSSL REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads OpenSSL::SSL OpenSSL::Crypto)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+target_compile_definitions(${PROJECT_NAME} PRIVATE BOOST_ASIO_HAS_OPENSSL)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     VERSION ${PROJECT_VERSION}

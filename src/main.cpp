@@ -1,7 +1,5 @@
 #include "chat_server.h"
 
-// ==================== SERVER IMPLEMENTATION ====================
-
 Server::Server(asio::io_context& io, short port)
     : acceptor_(io, tcp::endpoint(tcp::v4(), port))
     , io_context_(io) {
