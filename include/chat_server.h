@@ -31,7 +31,6 @@ namespace ssl = asio::ssl;
 using tcp = asio::ip::tcp;
 using boost::property_tree::ptree;
 
-// Configuration constants
 struct Config {
     static constexpr int MAX_MESSAGE_LENGTH = 500;  
     static constexpr int MAX_MESSAGES_PER_MINUTE = 60;  
@@ -43,7 +42,6 @@ struct Config {
     static constexpr int MAX_CONNECTIONS_PER_IP = 5;  
 };
 
-// Logger class for centralized logging
 class Logger {
 public:
     enum Level { DEBUG, INFO, WARN, ERROR };
@@ -64,7 +62,6 @@ private:
     std::ofstream log_file_;
 };
 
-// Metrics tracking class
 class Metrics {
 public:
     static Metrics& instance();
@@ -86,7 +83,6 @@ private:
     int total_skips_ = 0;
 };
 
-// Rate limiting class
 class RateLimiter {
 public:
     bool check_rate_limit(const std::string& identifier);
@@ -97,7 +93,6 @@ private:
     std::unordered_map<std::string, std::deque<std::chrono::steady_clock::time_point>> rate_map_;
 };
 
-// IP connection tracking class
 class IPTracker {
 public:
     bool can_connect(const std::string& ip);
@@ -108,10 +103,8 @@ private:
     std::unordered_map<std::string, int> connection_count_;
 };
 
-// Utility function for JSON generation
 std::string make_json(const std::string& type, const std::string& message = "");
 
-// Session class forward declaration
 class Session : public std::enable_shared_from_this<Session> {
 public:
     explicit Session(tcp::socket socket, ssl::context& ctx, const std::string& ip);
@@ -140,6 +133,7 @@ private:
     std::string session_id_;
     std::chrono::steady_clock::time_point last_activity_;
     std::chrono::steady_clock::time_point last_heartbeat_;
+    std::string username_ = "Annonymous";
     
     static std::string generate_session_id();
     void start_heartbeat();
@@ -151,15 +145,12 @@ private:
     void close();
 };
 
-// Global state
 extern std::deque<std::shared_ptr<Session>> waiting_pool;
 extern std::unordered_set<std::shared_ptr<Session>> sessions;
 extern std::mutex global_mutex;
 
-// Cleanup thread function
 void cleanup_thread(asio::io_context& io);
 
-// Server class
 class Server {
 public:
     Server(asio::io_context& io, short port, ssl::context& ctx);
@@ -174,4 +165,4 @@ private:
     void do_accept();
 };
 
-#endif // CHAT_SERVER_H
+#endif 

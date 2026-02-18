@@ -1,7 +1,4 @@
 #include "chat_server.h"
-
-// ==================== LOGGER IMPLEMENTATION ====================
-
 Logger& Logger::instance() {
     static Logger logger;
     return logger;
@@ -51,7 +48,6 @@ std::string Logger::level_to_string(Level level) {
     }
 }
 
-// ==================== METRICS IMPLEMENTATION ====================
 
 Metrics& Metrics::instance() {
     static Metrics metrics;
@@ -99,15 +95,11 @@ void Metrics::print_stats() {
     Logger::instance().info(oss.str());
 }
 
-// ==================== RATE LIMITER IMPLEMENTATION ====================
-
 bool RateLimiter::check_rate_limit(const std::string& identifier) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto now = std::chrono::steady_clock::now();
     auto& entry = rate_map_[identifier];
-    
-    // Remove old timestamps (older than 1 minute)
     auto cutoff_1min = now - std::chrono::minutes(1);
     entry.erase(
         std::remove_if(entry.begin(), entry.end(),
@@ -115,13 +107,11 @@ bool RateLimiter::check_rate_limit(const std::string& identifier) {
         entry.end()
     );
     
-    // Check 1-minute limit (sustained spam)
     if (entry.size() >= Config::MAX_MESSAGES_PER_MINUTE) {
         Logger::instance().warn("Rate limit exceeded (60 msg/min) for: " + identifier);
         return false;
     }
     
-    // Check 10-second burst limit (rapid fire spam)
     auto cutoff_10sec = now - std::chrono::seconds(10);
     int recent_count = std::count_if(entry.begin(), entry.end(),
         [cutoff_10sec](const auto& time) { return time >= cutoff_10sec; });
@@ -150,8 +140,6 @@ void RateLimiter::cleanup_old_entries() {
     }
 }
 
-// ==================== IP TRACKER IMPLEMENTATION ====================
-
 bool IPTracker::can_connect(const std::string& ip) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -176,8 +164,6 @@ void IPTracker::disconnect(const std::string& ip) {
         connection_count_.erase(ip);
     }
 }
-
-// ==================== UTILITY FUNCTIONS ====================
 
 std::string make_json(const std::string& type, const std::string& message) {
     ptree tree;

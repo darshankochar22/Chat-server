@@ -1,11 +1,8 @@
 #include "chat_server.h"
 namespace ssl = boost::asio::ssl;
-// Global state definitions
 std::deque<std::shared_ptr<Session>> waiting_pool;
 std::unordered_set<std::shared_ptr<Session>> sessions;
 std::mutex global_mutex;
-
-// ==================== SESSION IMPLEMENTATION ====================
 
 Session::Session(tcp::socket socket,ssl::context& ctx ,const std::string& ip)
     : ws_(std::move(socket),ctx)
@@ -17,8 +14,6 @@ Session::Session(tcp::socket socket,ssl::context& ctx ,const std::string& ip)
 
 void Session::start() {
     auto self(shared_from_this());
-
-    // 1. Perform the SSL Handshake first
     ws_.next_layer().async_handshake(
         ssl::stream_base::server,
         [self](beast::error_code ec) {
@@ -27,7 +22,6 @@ void Session::start() {
                 return; 
             }
 
-            // 2. SSL Success! Now run your original WebSocket logic
             self->ws_.set_option(websocket::stream_base::timeout::suggested(beast::role_type::server));
             self->ws_.set_option(websocket::stream_base::decorator(
                 [](websocket::response_type& res) {
@@ -120,8 +114,7 @@ void Session::send_ping() {
     if (is_closed()) return;
     
     send(make_json("ping"));
-    
-    // Schedule next ping
+
     auto timer = std::make_shared<asio::steady_timer>(
         beast::get_lowest_layer(ws_).get_executor(),
         std::chrono::milliseconds(Config::HEARTBEAT_INTERVAL_MS)
@@ -142,7 +135,6 @@ void Session::try_match() {
         if (closed_) return;
     }
     
-    // Clean up closed sessions from waiting pool
     waiting_pool.erase(
         std::remove_if(waiting_pool.begin(), waiting_pool.end(),
             [](const std::shared_ptr<Session>& s) { return s->is_closed(); }),
@@ -231,11 +223,23 @@ void Session::handle_json(const std::string& data) {
             last_heartbeat_ = std::chrono::steady_clock::now();
             return;
         }
-        
+        if(type == "set_name"){
+            std::string name =  tree.get<std::string>("name","");
+            if(name.empty() || name.length() > 20){
+                send(make_json("error","Invalid username"));
+                return;
+            }
+            {
+                std::lock_guard<std::mutex> lock(session_mutex_);
+                username_ = name;
+            }
+            send(make_json("info", "Username set to " + name));
+            Logger::instance().info("Username set: " + session_id_ + " -> " + name);
+            return;
+        }
         if (type == "msg") {
             std::string text = tree.get<std::string>("text", "");
-            
-            // INPUT VALIDATION
+
             if (text.empty()) {
                 send(make_json("error", "Empty message"));
                 Logger::instance().warn("Empty message from " + session_id_);
@@ -248,8 +252,7 @@ void Session::handle_json(const std::string& data) {
                 Logger::instance().warn("Message too long from " + session_id_);
                 return;
             }
-            
-            // RATE LIMITING
+
             if (!RateLimiter().check_rate_limit(session_id_)) {
                 send(make_json("error", "Slow down! You're sending messages too fast."));
                 return;
@@ -260,9 +263,25 @@ void Session::handle_json(const std::string& data) {
                 std::lock_guard<std::mutex> lock(session_mutex_);
                 partner = partner_;
             }
-            
+
             if (partner && !partner->is_closed()) {
+                std::string name;
+                {
+                    std::lock_guard<std::mutex> lock(session_mutex_);
+                    name = username_;
+                }
+                ptree response;
+                response.put("type","chat");
+                response.put("text",text);
+                response.put("username",name);
+
+                std::ostringstream buf;
+                write_json(buf, response, false);
+                std::string result = buf.str();
+
+                if(!result.empty() && result.back() == '\n')  result.pop_back();
                 partner->send(make_json("chat", text));
+                
                 Metrics::instance().increment_messages();
                 Logger::instance().debug("Message from " + session_id_ + " to partner");
             } else {
@@ -357,8 +376,6 @@ void Session::close() {
     Logger::instance().info("Connection closed: " + session_id_);
 }
 
-// ==================== CLEANUP THREAD ====================
-
 void cleanup_thread(asio::io_context& io) {
     while (true) {
         std::this_thread::sleep_for(std::chrono::seconds(Config::CLEANUP_INTERVAL_SECONDS));
@@ -367,15 +384,12 @@ void cleanup_thread(asio::io_context& io) {
         
         {
             std::lock_guard<std::mutex> lock(global_mutex);
-            
-            // Find timed out sessions
             for (const auto& session : sessions) {
                 if (session->is_timed_out() || session->is_heartbeat_timeout()) {
                     to_remove.push_back(session);
                 }
             }
             
-            // Remove them
             for (const auto& session : to_remove) {
                 sessions.erase(session);
                 Logger::instance().info("Removed timed out session: " + session->get_session_id());
