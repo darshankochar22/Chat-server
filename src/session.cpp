@@ -280,8 +280,8 @@ void Session::handle_json(const std::string& data) {
                 std::string result = buf.str();
 
                 if(!result.empty() && result.back() == '\n')  result.pop_back();
-                partner->send(make_json("chat", text));
-                
+                partner->send(result);
+
                 Metrics::instance().increment_messages();
                 Logger::instance().debug("Message from " + session_id_ + " to partner");
             } else {
