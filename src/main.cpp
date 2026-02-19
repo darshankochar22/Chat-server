@@ -50,6 +50,7 @@ void Server::do_accept() {
 
 int main() {
     try {
+        load_env();
         Logger::instance().info("===========================================");
         Logger::instance().info("Anonymous Chat Server v2.0 Starting...");
         Logger::instance().info("===========================================");
@@ -78,6 +79,6 @@ int main() {
         Logger::instance().error("Fatal error: " + std::string(e.what()));
         return 1;
     }
-    
+     
     return 0;
 }

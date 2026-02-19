@@ -85,10 +85,15 @@ private:
 
 class RateLimiter {
 public:
+    static RateLimiter& instance() {
+        static RateLimiter limiter;
+        return limiter;
+    }
     bool check_rate_limit(const std::string& identifier);
     void cleanup_old_entries();
     
 private:
+    RateLimiter() = default;
     std::mutex mutex_;
     std::unordered_map<std::string, std::deque<std::chrono::steady_clock::time_point>> rate_map_;
 };
@@ -104,6 +109,10 @@ private:
 };
 
 std::string make_json(const std::string& type, const std::string& message = "");
+void load_env();
+void supabase_post(const std::string& endpoint, const std::string& json_body);
+void supabase_patch(const std::string& endpoint, const std::string& json_body);
+std::string supabase_get(const std::string& endpoint);
 
 class Session : public std::enable_shared_from_this<Session> {
 public:
@@ -120,6 +129,7 @@ public:
     void update_activity();
     std::string get_ip() const;
     std::string get_session_id() const;
+    std::string get_browser_token() const; 
 
 private:
     websocket::stream<beast::ssl_stream<tcp::socket>> ws_;
@@ -131,6 +141,7 @@ private:
     
     std::string ip_address_;
     std::string session_id_;
+    std::string browser_token_;
     std::chrono::steady_clock::time_point last_activity_;
     std::chrono::steady_clock::time_point last_heartbeat_;
     std::string username_ = "Annonymous";
